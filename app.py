@@ -160,7 +160,7 @@ def setup_sidebar():
     
     mode = st.sidebar.radio(
         "Mode",
-        ["Landing Page", "Portfolio Analysis", "Single Stock Analysis"],
+        ["Landing Page", "Portfolio Analysis", "Single Stock Analysis", "Learn Metrics"],
         label_visibility="collapsed"
     )
     
@@ -232,6 +232,7 @@ def show_landing_page():
         
         - 📊 **Portfolio Analysis** (A & B Comparison)
         - 📈 **Single Stock Analysis** 
+        - 📚 **Learn Metrics** (Educational Guide)
         - 💰 **25+ Financial Metrics**
         - 📊 **Interactive Charts & Visualizations**
         - ⚖️ **Portfolio Comparison & Risk Assessment**
@@ -634,6 +635,354 @@ def show_single_stock_analysis(period, risk_free_rate):
         st.error(f"Error: {str(e)}")
 
 # ============================================================================
+# METRICS EDUCATION
+# ============================================================================
+
+def show_metrics_education():
+    """Show educational content about financial metrics"""
+    
+    st.markdown("""
+    <div class="main-header">
+        <h1 style="margin: 0;">📚 Learn Financial Metrics</h1>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <p style="font-size: 16px; color: #666; margin-top: 10px;">
+    Understand the key metrics used in portfolio analysis. Click on any metric to expand and learn more.
+    </p>
+    """, unsafe_allow_html=True)
+    
+    # Create expandable sections for each metric
+    with st.expander("📈 **CAGR (Compound Annual Growth Rate)**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        CAGR represents the average annual return of an investment over a specific period, assuming profits are reinvested.
+        
+        **Formula:**
+        ```
+        CAGR = (Ending Value / Beginning Value)^(1/Number of Years) - 1
+        ```
+        
+        **Example:**
+        - Investment: ₹100 → ₹400 over 10 years
+        - CAGR = (400/100)^(1/10) - 1 = 14.87% per year
+        
+        **What's Good?**
+        - 0-5%: Conservative
+        - 5-10%: Moderate
+        - 10-15%: Good
+        - 15%+: Excellent
+        
+        **Why It Matters:**
+        Helps you understand long-term investment growth, accounting for compounding effects.
+        """)
+    
+    with st.expander("📊 **Total Return**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        The total profit or loss from your investment over the entire analysis period, expressed as a percentage.
+        
+        **Formula:**
+        ```
+        Total Return = (Ending Value - Beginning Value) / Beginning Value × 100%
+        ```
+        
+        **Example:**
+        - Invested: ₹100,000
+        - Current Value: ₹148,600
+        - Total Return = (148,600 - 100,000) / 100,000 × 100% = 48.6%
+        
+        **What's Good?**
+        - Positive return: Profit ✅
+        - 20-50% over 5 years: Good
+        - 50%+: Excellent
+        
+        **Why It Matters:**
+        Shows your actual profit or loss in simple percentage terms.
+        """)
+    
+    with st.expander("📉 **Annual Volatility (Standard Deviation)**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        Measures how much your portfolio's returns fluctuate day-to-day. Higher volatility = more unpredictable.
+        
+        **Interpretation:**
+        - Shows the "risk" of your investment
+        - Calculated from daily return variations
+        - Annualized to show yearly risk
+        
+        **Example:**
+        - 15% volatility: Daily returns vary slightly, stable investment
+        - 30% volatility: Large daily swings, risky investment
+        
+        **What's Good?**
+        - 10-15%: Low risk, stable returns
+        - 15-20%: Moderate risk
+        - 20-30%: Higher risk
+        - 30%+: Very high risk
+        
+        **Why It Matters:**
+        Helps you understand how much your portfolio value will bounce around.
+        """)
+    
+    with st.expander("⚖️ **Sharpe Ratio**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        Measures how much return you get for each unit of risk taken. Higher = better!
+        
+        **Formula:**
+        ```
+        Sharpe Ratio = (Portfolio Return - Risk-Free Rate) / Volatility
+        ```
+        
+        **Interpretation:**
+        - How efficiently your portfolio uses risk to generate returns
+        - Compares return to risk taken
+        
+        **What's Good?**
+        - < 0: Losing money
+        - 0 - 0.5: Poor
+        - 0.5 - 1.0: Acceptable
+        - 1.0 - 2.0: Excellent ⭐
+        - 2.0+: Outstanding ⭐⭐
+        
+        **Example:**
+        - Portfolio A: 0.8 Sharpe = Good efficiency
+        - Portfolio B: 0.5 Sharpe = Average efficiency
+        - Choose Portfolio A
+        
+        **Why It Matters:**
+        Helps compare portfolios fairly by considering both return and risk.
+        """)
+    
+    with st.expander("🎯 **Sortino Ratio**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        Similar to Sharpe Ratio, but only considers "downside" risk (negative returns).
+        Ignores positive volatility, focusing on actual losses.
+        
+        **Formula:**
+        ```
+        Sortino Ratio = (Portfolio Return - Risk-Free Rate) / Downside Deviation
+        ```
+        
+        **Why Different from Sharpe?**
+        - Sharpe: Considers all volatility (both up and down)
+        - Sortino: Only considers downside volatility (losses)
+        - More practical for risk-averse investors
+        
+        **What's Good?**
+        - > 1.0: Good downside protection
+        - > 2.0: Excellent downside protection
+        - > 3.0: Outstanding
+        
+        **Why It Matters:**
+        Better measure for investors who care more about avoiding losses than celebrating gains.
+        """)
+    
+    with st.expander("🏆 **Information Ratio**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        Measures how much your portfolio outperforms a benchmark (like Nifty 50), adjusted for risk.
+        
+        **Formula:**
+        ```
+        Information Ratio = (Portfolio Return - Benchmark Return) / Tracking Error
+        ```
+        
+        **Interpretation:**
+        - Shows how well you beat the market
+        - Positive = beating the benchmark
+        - Negative = underperforming
+        
+        **What's Good?**
+        - > 0: Beating the benchmark ✅
+        - 0.5: Good outperformance
+        - > 1.0: Excellent outperformance ⭐
+        
+        **Why It Matters:**
+        Helps you see if your stock-picking skill is adding value beyond just buying the index.
+        """)
+    
+    with st.expander("🎪 **Calmar Ratio**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        Measures return per unit of maximum drawdown. Shows recovery capability.
+        
+        **Formula:**
+        ```
+        Calmar Ratio = Annual Return / Absolute Value of Max Drawdown
+        ```
+        
+        **Example:**
+        - Annual Return: 15%
+        - Max Drawdown: -20%
+        - Calmar = 15 / 20 = 0.75
+        
+        **What's Good?**
+        - > 1.0: Good recovery capability ✅
+        - > 2.0: Excellent recovery ⭐
+        - > 3.0: Outstanding ⭐⭐
+        
+        **Why It Matters:**
+        Shows how well your portfolio recovers from bad periods.
+        """)
+    
+    with st.expander("📉 **Maximum Drawdown**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        The largest peak-to-trough decline. Your worst-case loss scenario.
+        
+        **Example:**
+        - Peak Value: ₹100,000
+        - Trough Value: ₹80,000 (worst point)
+        - Max Drawdown = -20%
+        
+        **Interpretation:**
+        - How much you lost at the absolute worst time
+        - Historical worst-case loss
+        
+        **What's Good?**
+        - 0 to -10%: Low risk ✅
+        - -10% to -20%: Moderate risk
+        - -20% to -30%: Higher risk
+        - Below -30%: Very risky
+        
+        **Real World:**
+        - 2008 Market Crash: -57% drawdown
+        - Average Market: -20% to -30%
+        - Conservative Portfolio: -10% to -15%
+        
+        **Why It Matters:**
+        Prepares you mentally for the worst case. "Can I handle a -20% loss?"
+        """)
+    
+    with st.expander("⚠️ **Value at Risk (VaR)**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        Statistical estimate of maximum loss you might face on 95% of trading days.
+        The 5% worst-case loss.
+        
+        **Example:**
+        - Daily VaR: -1.5%
+        - Meaning: On 95% of days, you lose less than 1.5%
+        - On 5% of days, you might lose more
+        
+        **Interpretation:**
+        - Shows typical daily risk
+        - Used in risk management
+        
+        **What's Good?**
+        - -1% to -2%: Low risk ✅
+        - -2% to -3%: Moderate risk
+        - Below -3%: Higher risk
+        
+        **Why It Matters:**
+        Gives you a statistical edge of daily losses. Helps with position sizing.
+        """)
+    
+    with st.expander("📊 **Skewness**", expanded=False):
+        st.markdown("""
+        **What It Is:**
+        Measures the shape of return distribution. Are returns symmetric or skewed?
+        
+        **Interpretation:**
+        - Positive Skew: More big wins than big losses (GOOD) 😊
+        - Zero Skew: Symmetric wins and losses
+        - Negative Skew: More big losses than big wins (BAD) 😞
+        
+        **Example:**
+        - Skew = +0.5: Good! More upside surprises
+        - Skew = -0.5: Bad! More downside surprises
+        - Skew = 0: Neutral
+        
+        **What's Good?**
+        - > 0: Positive skewness (more wins) ✅
+        - > 1.0: Strong positive skewness ⭐
+        - < 0: Avoid (more losses)
+        
+        **Why It Matters:**
+        Shows if your portfolio tends to have pleasant or unpleasant surprises.
+        """)
+    
+    # Quick Reference Table
+    st.markdown("---")
+    st.markdown("<h2 class='section-header'>📋 Quick Reference Guide</h2>", unsafe_allow_html=True)
+    
+    metrics_table = """
+    | Metric | What It Measures | Better Value | Key Points |
+    |--------|------------------|--------------|-----------|
+    | **CAGR** | Avg annual growth | Higher | Main return metric |
+    | **Total Return** | Overall profit/loss | Higher | Simple percentage |
+    | **Volatility** | Risk/fluctuation | Lower | More stable is safer |
+    | **Sharpe Ratio** | Return per risk unit | Higher (>1 good) | Efficiency metric |
+    | **Sortino Ratio** | Return per downside risk | Higher (>1 good) | Focus on losses only |
+    | **Information Ratio** | Outperformance vs benchmark | Higher (>0.5 good) | Beat the market? |
+    | **Calmar Ratio** | Return per max drawdown | Higher (>1 good) | Recovery ability |
+    | **Max Drawdown** | Worst-case loss | Higher/less negative | Prepare for worst |
+    | **Value at Risk** | 95% daily loss limit | Higher/less negative | Statistical risk |
+    | **Skewness** | Return distribution shape | Positive | More wins than losses |
+    """
+    
+    st.markdown(metrics_table)
+    
+    # Best Practices
+    st.markdown("---")
+    st.markdown("<h2 class='section-header'>🎯 How to Use These Metrics</h2>", unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        ### ✅ For Conservative Investors
+        - Focus: **Low Volatility, High Sharpe**
+        - Check: Max Drawdown (should be small)
+        - Goal: Steady returns with low risk
+        
+        ### ✅ For Growth Investors
+        - Focus: **High CAGR, Good Sharpe**
+        - Check: Sortino Ratio (downside protection)
+        - Goal: Maximum returns with acceptable risk
+        """)
+    
+    with col2:
+        st.markdown("""
+        ### ✅ When Comparing Portfolios
+        1. Look at CAGR first (returns)
+        2. Check Volatility (risk)
+        3. Compare Sharpe Ratio (efficiency)
+        4. Verify Max Drawdown (worst case)
+        5. Consider Information Ratio (skill)
+        
+        ### ✅ Red Flags
+        - ❌ High returns + High volatility
+        - ❌ Negative Information Ratio
+        - ❌ Very large Max Drawdown
+        - ❌ Negative Skewness
+        """)
+    
+    # Key Takeaways
+    st.markdown("---")
+    st.markdown("<h2 class='section-header'>🌟 Key Takeaways</h2>", unsafe_allow_html=True)
+    
+    st.success("""
+    ✅ **CAGR** tells you average yearly growth
+    
+    ✅ **Volatility** tells you how bumpy the ride is
+    
+    ✅ **Sharpe Ratio** tells you if return compensates for risk
+    
+    ✅ **Max Drawdown** tells you the worst-case loss to prepare for
+    
+    ✅ **Information Ratio** tells you if you're beating the market
+    
+    ✅ **Calmar Ratio** tells you how well you recover from losses
+    
+    ✅ Use multiple metrics together for complete picture!
+    """)
+
+# ============================================================================
 # MAIN
 # ============================================================================
 
@@ -646,6 +995,8 @@ def main():
         show_portfolio_analysis(period, risk_free_rate)
     elif mode == "Single Stock Analysis":
         show_single_stock_analysis(period, risk_free_rate)
+    elif mode == "Learn Metrics":
+        show_metrics_education()
 
 if __name__ == "__main__":
     main()
