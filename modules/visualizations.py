@@ -1,3 +1,4 @@
+
 """
 VISUALIZATIONS MODULE
 Creates interactive charts using Plotly
@@ -32,6 +33,15 @@ class PortfolioVisualizer:
         """Plot portfolio value over time"""
         fig = go.Figure()
         
+        if len(self.portfolio_value) == 0:
+            fig.add_annotation(
+                text="No data available",
+                showarrow=False,
+                x=0.5,
+                y=0.5
+            )
+            return fig
+        
         fig.add_trace(go.Scatter(
             x=self.portfolio_value.index,
             y=self.portfolio_value['Portfolio Value'],
@@ -42,27 +52,29 @@ class PortfolioVisualizer:
             fillcolor='rgba(0, 51, 102, 0.1)'
         ))
         
-        fig.add_annotation(
-            x=self.portfolio_value.index[0],
-            y=self.portfolio_value['Portfolio Value'].iloc[0],
-            text=f"Start: ₹{self.portfolio_value['Portfolio Value'].iloc[0]:,.0f}",
-            showarrow=True,
-            arrowhead=2,
-            arrowsize=1,
-            arrowwidth=2,
-            arrowcolor='#003366'
-        )
-        
-        fig.add_annotation(
-            x=self.portfolio_value.index[-1],
-            y=self.portfolio_value['Portfolio Value'].iloc[-1],
-            text=f"End: ₹{self.portfolio_value['Portfolio Value'].iloc[-1]:,.0f}",
-            showarrow=True,
-            arrowhead=2,
-            arrowsize=1,
-            arrowwidth=2,
-            arrowcolor='#003366'
-        )
+        # Add annotations only if data exists
+        if len(self.portfolio_value) > 0:
+            fig.add_annotation(
+                x=self.portfolio_value.index[0],
+                y=self.portfolio_value['Portfolio Value'].iloc[0],
+                text=f"Start: ₹{self.portfolio_value['Portfolio Value'].iloc[0]:,.0f}",
+                showarrow=True,
+                arrowhead=2,
+                arrowsize=1,
+                arrowwidth=2,
+                arrowcolor='#003366'
+            )
+            
+            fig.add_annotation(
+                x=self.portfolio_value.index[-1],
+                y=self.portfolio_value['Portfolio Value'].iloc[-1],
+                text=f"End: ₹{self.portfolio_value['Portfolio Value'].iloc[-1]:,.0f}",
+                showarrow=True,
+                arrowhead=2,
+                arrowsize=1,
+                arrowwidth=2,
+                arrowcolor='#003366'
+            )
         
         fig.update_layout(
             title="Portfolio Value Over Time",
@@ -72,8 +84,7 @@ class PortfolioVisualizer:
             template='plotly_white',
             height=500,
             font=dict(family="Times New Roman"),
-            plot_bgcolor='rgba(173, 216, 230, 0.1)',
-            
+            plot_bgcolor='rgba(173, 216, 230, 0.1)'
         )
         
         return fig
@@ -83,6 +94,15 @@ class PortfolioVisualizer:
         cumulative_returns = self.analyzer.get_cumulative_returns()
         
         fig = go.Figure()
+        
+        if len(cumulative_returns) == 0:
+            fig.add_annotation(
+                text="No data available",
+                showarrow=False,
+                x=0.5,
+                y=0.5
+            )
+            return fig
         
         fig.add_trace(go.Scatter(
             x=cumulative_returns.index,
@@ -120,6 +140,15 @@ class PortfolioVisualizer:
         
         fig = go.Figure()
         
+        if len(drawdown) == 0:
+            fig.add_annotation(
+                text="No data available",
+                showarrow=False,
+                x=0.5,
+                y=0.5
+            )
+            return fig
+        
         fig.add_trace(go.Scatter(
             x=drawdown.index,
             y=drawdown * 100,
@@ -130,19 +159,21 @@ class PortfolioVisualizer:
             fillcolor='rgba(255, 107, 107, 0.2)'
         ))
         
-        max_dd_idx = drawdown.idxmin()
-        max_dd_value = drawdown.min()
-        
-        fig.add_annotation(
-            x=max_dd_idx,
-            y=max_dd_value * 100,
-            text=f"Max DD: {max_dd_value*100:.2f}%",
-            showarrow=True,
-            arrowhead=2,
-            arrowsize=1,
-            arrowwidth=2,
-            arrowcolor='#FF6B6B'
-        )
+        # Add annotation for max drawdown only if data exists
+        if len(drawdown) > 0:
+            max_dd_idx = drawdown.idxmin()
+            max_dd_value = drawdown.min()
+            
+            fig.add_annotation(
+                x=max_dd_idx,
+                y=max_dd_value * 100,
+                text=f"Max DD: {max_dd_value*100:.2f}%",
+                showarrow=True,
+                arrowhead=2,
+                arrowsize=1,
+                arrowwidth=2,
+                arrowcolor='#FF6B6B'
+            )
         
         fig.update_layout(
             title="Drawdown from Peak",
@@ -221,6 +252,15 @@ class PortfolioVisualizer:
         rolling_vol = daily_returns.rolling(window).std() * np.sqrt(252) * 100
         
         fig = go.Figure()
+        
+        if len(rolling_vol) == 0:
+            fig.add_annotation(
+                text="No data available",
+                showarrow=False,
+                x=0.5,
+                y=0.5
+            )
+            return fig
         
         fig.add_trace(go.Scatter(
             x=rolling_vol.index,
