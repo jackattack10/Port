@@ -71,8 +71,7 @@ class NiftyDataFetcher:
                         period=period,
                         progress=False,
                         interval='1d',
-                        timeout=60,  # 60 second timeout
-                        show_errors=False
+                        timeout=60
                     )
                     
                     # Handle single stock case
