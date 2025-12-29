@@ -270,16 +270,6 @@ def show_portfolio_analysis(period, risk_free_rate):
         fetcher = NiftyDataFetcher()
         nifty_stocks = fetcher.get_nifty_50_stocks()
         
-        # Initialize session state for tracking previous selections
-        if 'prev_stocks_a' not in st.session_state:
-            st.session_state.prev_stocks_a = []
-        if 'prev_stocks_b' not in st.session_state:
-            st.session_state.prev_stocks_b = []
-        if 'weights_a_dict' not in st.session_state:
-            st.session_state.weights_a_dict = {}
-        if 'weights_b_dict' not in st.session_state:
-            st.session_state.weights_b_dict = {}
-        
         col1, col2 = st.columns(2)
         
         with col1:
@@ -290,30 +280,38 @@ def show_portfolio_analysis(period, risk_free_rate):
                 key="stocks_a"
             )
             
-            # Check if stocks changed and reset weights if needed
-            if stocks_a != st.session_state.prev_stocks_a:
-                st.session_state.weights_a_dict = {stock: 100.0/len(stocks_a) for stock in stocks_a} if stocks_a else {}
-                st.session_state.prev_stocks_a = stocks_a.copy()
-            
             weights_a = {}
             if stocks_a:
-                st.info(f"📊 {len(stocks_a)} stocks selected → Equal weight: {100.0/len(stocks_a):.2f}% each")
+                # Show info about equal weight distribution
+                equal_weight = 100.0 / len(stocks_a)
+                st.info(f"📊 {len(stocks_a)} stocks selected → Equal weight: {equal_weight:.2f}% each")
+                
+                # Initialize session state for each stock if it doesn't exist
+                for stock in stocks_a:
+                    weight_key = f"weight_a_{stock}"
+                    if weight_key not in st.session_state:
+                        st.session_state[weight_key] = equal_weight
+                
+                # Check if any stocks were removed - reset removed stock weights
+                all_weight_keys_a = [k for k in st.session_state.keys() if k.startswith("weight_a_")]
+                for weight_key in all_weight_keys_a:
+                    stock = weight_key.replace("weight_a_", "")
+                    if stock not in stocks_a and weight_key in st.session_state:
+                        del st.session_state[weight_key]
+                
+                # Display weight inputs
                 cols = st.columns(len(stocks_a))
                 for idx, stock in enumerate(stocks_a):
                     with cols[idx]:
-                        # Get default value from session state
-                        default_val = st.session_state.weights_a_dict.get(stock, 100.0/len(stocks_a))
+                        weight_key = f"weight_a_{stock}"
                         weights_a[stock] = st.number_input(
                             f"{stock}",
                             min_value=0.0,
                             max_value=100.0,
-                            value=default_val,
                             step=0.1,
-                            key=f"weight_a_{stock}",
+                            key=weight_key,
                             format="%.2f"
                         )
-                        # Update session state with current value
-                        st.session_state.weights_a_dict[stock] = weights_a[stock]
         
         with col2:
             st.markdown("<h3 class='section-header'>Portfolio B</h3>", unsafe_allow_html=True)
@@ -323,30 +321,38 @@ def show_portfolio_analysis(period, risk_free_rate):
                 key="stocks_b"
             )
             
-            # Check if stocks changed and reset weights if needed
-            if stocks_b != st.session_state.prev_stocks_b:
-                st.session_state.weights_b_dict = {stock: 100.0/len(stocks_b) for stock in stocks_b} if stocks_b else {}
-                st.session_state.prev_stocks_b = stocks_b.copy()
-            
             weights_b = {}
             if stocks_b:
-                st.info(f"📊 {len(stocks_b)} stocks selected → Equal weight: {100.0/len(stocks_b):.2f}% each")
+                # Show info about equal weight distribution
+                equal_weight = 100.0 / len(stocks_b)
+                st.info(f"📊 {len(stocks_b)} stocks selected → Equal weight: {equal_weight:.2f}% each")
+                
+                # Initialize session state for each stock if it doesn't exist
+                for stock in stocks_b:
+                    weight_key = f"weight_b_{stock}"
+                    if weight_key not in st.session_state:
+                        st.session_state[weight_key] = equal_weight
+                
+                # Check if any stocks were removed - reset removed stock weights
+                all_weight_keys_b = [k for k in st.session_state.keys() if k.startswith("weight_b_")]
+                for weight_key in all_weight_keys_b:
+                    stock = weight_key.replace("weight_b_", "")
+                    if stock not in stocks_b and weight_key in st.session_state:
+                        del st.session_state[weight_key]
+                
+                # Display weight inputs
                 cols = st.columns(len(stocks_b))
                 for idx, stock in enumerate(stocks_b):
                     with cols[idx]:
-                        # Get default value from session state
-                        default_val = st.session_state.weights_b_dict.get(stock, 100.0/len(stocks_b))
+                        weight_key = f"weight_b_{stock}"
                         weights_b[stock] = st.number_input(
                             f"{stock}",
                             min_value=0.0,
                             max_value=100.0,
-                            value=default_val,
                             step=0.1,
-                            key=f"weight_b_{stock}",
+                            key=weight_key,
                             format="%.2f"
                         )
-                        # Update session state with current value
-                        st.session_state.weights_b_dict[stock] = weights_b[stock]
         
         st.markdown("---")
         
