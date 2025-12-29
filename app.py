@@ -374,13 +374,13 @@ def show_portfolio_analysis(period, risk_free_rate):
                                 col1, col2 = st.columns(2)
                                 with col1:
                                     try:
-                                        st.plotly_chart(visualizer.plot_portfolio_value(), use_container_width=True)
+                                        st.plotly_chart(visualizer.plot_portfolio_value(chart_id="portfolio_a_value"), use_container_width=True, key="portfolio_a_value")
                                     except Exception as e:
                                         st.warning(f"⚠️ Chart error: {str(e)}")
                                 
                                 with col2:
                                     try:
-                                        st.plotly_chart(visualizer.plot_allocation(), use_container_width=True)
+                                        st.plotly_chart(visualizer.plot_allocation(chart_id="portfolio_a_allocation"), use_container_width=True, key="portfolio_a_allocation")
                                     except Exception as e:
                                         st.warning(f"⚠️ Chart error: {str(e)}")
                                 
@@ -405,13 +405,13 @@ def show_portfolio_analysis(period, risk_free_rate):
                                 col1, col2 = st.columns(2)
                                 with col1:
                                     try:
-                                        st.plotly_chart(visualizer.plot_portfolio_value(), use_container_width=True)
+                                        st.plotly_chart(visualizer.plot_portfolio_value(chart_id="portfolio_b_value"), use_container_width=True, key="portfolio_b_value")
                                     except Exception as e:
                                         st.warning(f"⚠️ Chart error: {str(e)}")
                                 
                                 with col2:
                                     try:
-                                        st.plotly_chart(visualizer.plot_allocation(), use_container_width=True)
+                                        st.plotly_chart(visualizer.plot_allocation(chart_id="portfolio_b_allocation"), use_container_width=True, key="portfolio_b_allocation")
                                     except Exception as e:
                                         st.warning(f"⚠️ Chart error: {str(e)}")
                                 
@@ -478,9 +478,9 @@ def show_single_stock_analysis(period, risk_free_rate):
                 visualizer = PortfolioVisualizer(data, analyzer, metrics)
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.plotly_chart(visualizer.plot_portfolio_value(), use_container_width=True)
+                    st.plotly_chart(visualizer.plot_portfolio_value(chart_id=f"single_stock_{selected_stock}_value"), use_container_width=True, key=f"single_stock_{selected_stock}_value")
                 with col2:
-                    st.plotly_chart(visualizer.plot_cumulative_returns(), use_container_width=True)
+                    st.plotly_chart(visualizer.plot_cumulative_returns(chart_id=f"single_stock_{selected_stock}_returns"), use_container_width=True, key=f"single_stock_{selected_stock}_returns")
                 
                 st.success("✅ Analysis complete!")
     
