@@ -1,3 +1,4 @@
+
 """
 DATA FETCHER MODULE
 Handles fetching real-time stock data from Yahoo Finance
@@ -16,7 +17,7 @@ class NiftyDataFetcher:
     
     # Nifty 50 stocks with NSE.NS suffix
     NIFTY_50 = [
-        'RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFOSY.NS', 'HDFC.NS',
+        'RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFOSY.NS',
         'ICICIBANK.NS', 'HINDUNILVR.NS', 'SBIN.NS', 'BHARTIARTL.NS', 'ITC.NS',
         'LTIN.NS', 'BAJAJFINSV.NS', 'AXISBANK.NS', 'MARUTI.NS', 'SUNPHARMA.NS',
         'TECHM.NS', 'WIPRO.NS', 'POWERGRID.NS', 'TITAN.NS', 'BAJAJ-AUTO.NS',
@@ -24,7 +25,7 @@ class NiftyDataFetcher:
         'ADANIPORTS.NS', 'ASIANPAINT.NS', 'DMART.NS', 'HEROMOTOCO.NS', 'JSWSTEEL.NS',
         'KOTAKBANK.NS', 'LT.NS', 'NTPC.NS', 'HCLTECH.NS', 'DRREDDY.NS',
         'INDIGO.NS', 'BPCL.NS', 'CIPLA.NS', 'COALINDIA.NS', 'DIVISLAB.NS',
-        'GODREJCP.NS', 'INDUSTOWER.NS', 'NATIONALUM.NS', 'NESTLEIND.NS', 'NTPC.NS',
+        'GODREJCP.NS', 'INDUSTOWER.NS', 'NATIONALUM.NS', 'NESTLEIND.NS',
         'TATASTEEL.NS', 'TATAMOTORS.NS', 'UPL.NS', 'APOLLOHOSP.NS', 'BIOCON.NS'
     ]
     
