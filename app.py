@@ -374,10 +374,12 @@ def show_portfolio_analysis(period, risk_free_rate):
         
         with col1:
             st.markdown("<h3 class='section-header'>Portfolio A</h3>", unsafe_allow_html=True)
+            st.markdown("<p style='color: #001a4d; font-weight: 900; font-size: 18px; margin-bottom: 12px;'>📊 Select stocks for Portfolio A</p>", unsafe_allow_html=True)
             stocks_a = st.multiselect(
                 "Select stocks for Portfolio A",
                 options=nifty_stocks,
-                key="stocks_a"
+                key="stocks_a",
+                label_visibility="collapsed"
             )
             
             weights_a = {}
@@ -420,10 +422,12 @@ def show_portfolio_analysis(period, risk_free_rate):
         
         with col2:
             st.markdown("<h3 class='section-header'>Portfolio B</h3>", unsafe_allow_html=True)
+            st.markdown("<p style='color: #001a4d; font-weight: 900; font-size: 18px; margin-bottom: 12px;'>📊 Select stocks for Portfolio B</p>", unsafe_allow_html=True)
             stocks_b = st.multiselect(
                 "Select stocks for Portfolio B",
                 options=nifty_stocks,
-                key="stocks_b"
+                key="stocks_b",
+                label_visibility="collapsed"
             )
             
             weights_b = {}
@@ -618,8 +622,106 @@ def show_portfolio_analysis(period, risk_free_rate):
                             }
                             
                             comparison_df = pd.DataFrame(comparison_data)
-                            st.subheader("📈 Metrics Comparison")
-                            st.dataframe(comparison_df, use_container_width=True)
+                            
+                            # Function to determine color based on metric performance
+                            def get_metric_color(metric_name, value_str):
+                                """Determine color (green/amber/red) based on metric performance"""
+                                # Parse value from string
+                                try:
+                                    if '%' in value_str:
+                                        value = float(value_str.replace('%', ''))
+                                    else:
+                                        value = float(value_str)
+                                except:
+                                    return '#666666'  # Gray for unparseable values
+                                
+                                # Define color ranges for each metric
+                                if metric_name == 'CAGR':
+                                    if value >= 15: return '#2ecc71'  # Green
+                                    elif value >= 10: return '#f39c12'  # Amber
+                                    else: return '#e74c3c'  # Red
+                                
+                                elif metric_name == 'Total Return':
+                                    if value >= 20: return '#2ecc71'
+                                    elif value >= 10: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Annual Volatility':
+                                    if value <= 15: return '#2ecc71'  # Lower is better
+                                    elif value <= 25: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Sharpe Ratio':
+                                    if value >= 1.0: return '#2ecc71'
+                                    elif value >= 0.5: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Sortino Ratio':
+                                    if value >= 1.0: return '#2ecc71'
+                                    elif value >= 0.5: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Information Ratio':
+                                    if value >= 0.5: return '#2ecc71'
+                                    elif value >= 0: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Calmar Ratio':
+                                    if value >= 1.0: return '#2ecc71'
+                                    elif value >= 0.5: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Max Drawdown':
+                                    if value >= -15: return '#2ecc71'  # Higher (less negative) is better
+                                    elif value >= -30: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Value at Risk (VaR)':
+                                    if value >= -1.5: return '#2ecc71'
+                                    elif value >= -2.5: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                elif metric_name == 'Skewness':
+                                    if value >= 0.3: return '#2ecc71'
+                                    elif value >= 0: return '#f39c12'
+                                    else: return '#e74c3c'
+                                
+                                return '#666666'
+                            
+                            # Create colored HTML table
+                            html_table = "<table style='width: 100%; border-collapse: collapse; font-size: 14px;'>"
+                            html_table += "<tr style='background-color: #f0f0f0; font-weight: bold; border: 1px solid #ddd;'>"
+                            html_table += "<td style='padding: 12px; border: 1px solid #ddd;'>Metric</td>"
+                            html_table += "<td style='padding: 12px; border: 1px solid #ddd; text-align: center;'>Portfolio A</td>"
+                            html_table += "<td style='padding: 12px; border: 1px solid #ddd; text-align: center;'>Portfolio B</td>"
+                            html_table += "</tr>"
+                            
+                            for idx, metric in enumerate(comparison_data['Metric']):
+                                val_a = comparison_data['Portfolio A'][idx]
+                                val_b = comparison_data['Portfolio B'][idx]
+                                
+                                color_a = get_metric_color(metric, val_a)
+                                color_b = get_metric_color(metric, val_b)
+                                
+                                html_table += f"<tr style='border: 1px solid #ddd;'>"
+                                html_table += f"<td style='padding: 12px; border: 1px solid #ddd; font-weight: 600;'>{metric}</td>"
+                                html_table += f"<td style='padding: 12px; border: 1px solid #ddd; background-color: {color_a}; color: white; font-weight: bold; text-align: center;'>{val_a}</td>"
+                                html_table += f"<td style='padding: 12px; border: 1px solid #ddd; background-color: {color_b}; color: white; font-weight: bold; text-align: center;'>{val_b}</td>"
+                                html_table += "</tr>"
+                            
+                            html_table += "</table>"
+                            
+                            # Display with legend
+                            st.subheader("📈 Metrics Comparison - Performance Based Colors")
+                            st.markdown("""
+                            <div style='margin-bottom: 15px;'>
+                                <span style='background-color: #2ecc71; color: white; padding: 8px 12px; border-radius: 4px; margin-right: 10px; font-weight: bold;'>🟢 Good</span>
+                                <span style='background-color: #f39c12; color: white; padding: 8px 12px; border-radius: 4px; margin-right: 10px; font-weight: bold;'>🟡 Moderate</span>
+                                <span style='background-color: #e74c3c; color: white; padding: 8px 12px; border-radius: 4px; font-weight: bold;'>🔴 Poor</span>
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
+                            st.markdown(html_table, unsafe_allow_html=True)
                             
                             # Quick comparison
                             st.subheader("📋 Quick Analysis")
