@@ -107,7 +107,10 @@ def render_professional_footer():
             text-decoration: none;
             font-weight: 600;
             font-size: 13px;
-            box-shadow: 0 2px 8px rgba(0, 119, 181, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 119, 181, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         ">🔗 LinkedIn Profile</a>
         <a href="https://github.com/trichyravis/nifty-portfolio-analyzer" target="_blank" style="
             background: #333;
@@ -117,7 +120,10 @@ def render_professional_footer():
             text-decoration: none;
             font-weight: 600;
             font-size: 13px;
-            box-shadow: 0 2px 8px rgba(51, 51, 51, 0.3);
+            box-shadow: 0 2px 8px rgba(51, 51, 51, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         ">🐙 GitHub</a>
     </div>
     <p style="color: #666; font-size: 12px; margin: 0 0 10px 0; line-height: 1.6;">
@@ -135,7 +141,7 @@ def render_professional_footer():
 # ============================================================================
 
 def setup_sidebar():
-    """Setup professional sidebar navigation"""
+    """Setup professional sidebar navigation with dark blue background"""
     
     # Professional Dark Blue Sidebar Header
     st.sidebar.markdown("""
@@ -144,7 +150,7 @@ def setup_sidebar():
         color: white;
         padding: 20px 15px;
         border-radius: 8px;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         text-align: left;
     ">
         <h1 style="margin: 0; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
@@ -156,11 +162,18 @@ def setup_sidebar():
     </div>
     """, unsafe_allow_html=True)
     
-    # Mode Selection Section
+    # Mode Selection Section - Dark Blue Background
     st.sidebar.markdown("""
-    <h4 style="color: #003366; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
-    Select Mode:
-    </h4>
+    <div style="
+        background: #003366;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    ">
+        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">
+        Select Mode:
+        </h4>
+    </div>
     """, unsafe_allow_html=True)
     
     mode = st.sidebar.radio(
@@ -169,13 +182,18 @@ def setup_sidebar():
         label_visibility="collapsed"
     )
     
-    st.sidebar.markdown("---")
-    
-    # Settings Section
+    # Settings Section - Dark Blue Background
     st.sidebar.markdown("""
-    <h4 style="color: #003366; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
-    Settings:
-    </h4>
+    <div style="
+        background: #003366;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 15px 0;
+    ">
+        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">
+        Settings:
+        </h4>
+    </div>
     """, unsafe_allow_html=True)
     
     period = st.sidebar.selectbox(
@@ -192,25 +210,63 @@ def setup_sidebar():
         step=0.1
     )
     
-    # About This Tool Section
-    st.sidebar.markdown("---")
+    # About This Tool Section - Dark Blue Background with White Text
     st.sidebar.markdown("""
-    <h4 style="color: #003366; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
-    About This Tool:
-    </h4>
+    <div style="
+        background: #003366;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 15px 0;
+        border-top: 2px solid #004d99;
+    ">
+        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">
+        About This Tool:
+        </h4>
+        <p style="color: #E0E0E0; font-size: 12px; margin: 0 0 10px 0; line-height: 1.5;">
+        <strong>This platform uses the Five-Lens Framework:</strong>
+        </p>
+        <ul style="color: #E0E0E0; font-size: 12px; margin: 0; padding-left: 20px; line-height: 1.8;">
+            <li>📊 <strong>Valuation (20%)</strong> - P/E, P/B, P/S ratios</li>
+            <li>🏆 <strong>Quality (25%)</strong> - ROE, ROA metrics</li>
+            <li>📈 <strong>Growth (20%)</strong> - Revenue growth</li>
+            <li>💰 <strong>Financial Health (20%)</strong> - D/E, Interest Coverage</li>
+            <li>⚡ <strong>Risk & Momentum (15%)</strong> - Beta, Volatility</li>
+        </ul>
+    </div>
     """, unsafe_allow_html=True)
     
+    # Creator Section - Dark Blue Background with White Text
     st.sidebar.markdown("""
-    <div style="font-size: 12px; color: #555; line-height: 1.6;">
-    <p style="margin: 0 0 10px 0;"><strong>Advanced Financial Analysis Platform</strong></p>
-    <p style="margin: 0 0 10px 0;">This platform provides comprehensive portfolio analysis with:</p>
-    <ul style="margin: 0; padding-left: 20px;">
-    <li>📊 Portfolio Comparison (A & B)</li>
-    <li>📈 Single Stock Analysis</li>
-    <li>💰 25+ Financial Metrics</li>
-    <li>📉 Interactive Visualizations</li>
-    <li>⚖️ Risk Assessment Tools</li>
-    </ul>
+    <div style="
+        background: #003366;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 15px 0;
+        border-top: 2px solid #004d99;
+        text-align: center;
+    ">
+        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0;">
+        Prof. V. Ravichandran
+        </h4>
+        <p style="color: #E0E0E0; font-size: 12px; margin: 5px 0; line-height: 1.6;">
+        28+ Years Finance Experience
+        </p>
+        <p style="color: #E0E0E0; font-size: 12px; margin: 5px 0 15px 0; line-height: 1.6;">
+        10+ Years Academic Excellence
+        </p>
+        
+        <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="
+            display: inline-block;
+            background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(0, 119, 181, 0.4);
+            margin-top: 10px;
+        ">🔗 LinkedIn Profile</a>
     </div>
     """, unsafe_allow_html=True)
     
