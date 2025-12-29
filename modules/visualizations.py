@@ -29,7 +29,7 @@ class PortfolioVisualizer:
         self.metrics = metrics
         self.portfolio_value = portfolio_analyzer.get_portfolio_value()
     
-    def plot_portfolio_value(self, initial_investment=100000):
+    def plot_portfolio_value(self, initial_investment=100000, chart_id="portfolio_value"):
         """Plot portfolio value over time"""
         fig = go.Figure()
         
@@ -49,7 +49,8 @@ class PortfolioVisualizer:
             name='Portfolio Value',
             line=dict(color='#003366', width=3),
             fill='tozeroy',
-            fillcolor='rgba(0, 51, 102, 0.1)'
+            fillcolor='rgba(0, 51, 102, 0.1)',
+            uid=f'{chart_id}_trace_1'
         ))
         
         # Add annotations only if data exists
@@ -84,12 +85,13 @@ class PortfolioVisualizer:
             template='plotly_white',
             height=500,
             font=dict(family="Times New Roman"),
-            plot_bgcolor='rgba(173, 216, 230, 0.1)'
+            plot_bgcolor='rgba(173, 216, 230, 0.1)',
+            uirevision=chart_id
         )
         
         return fig
     
-    def plot_cumulative_returns(self):
+    def plot_cumulative_returns(self, chart_id="cumulative_returns"):
         """Plot cumulative returns over time"""
         cumulative_returns = self.analyzer.get_cumulative_returns()
         
@@ -111,7 +113,8 @@ class PortfolioVisualizer:
             name='Cumulative Return',
             line=dict(color='#90EE90', width=3),
             fill='tozeroy',
-            fillcolor='rgba(144, 238, 144, 0.2)'
+            fillcolor='rgba(144, 238, 144, 0.2)',
+            uid=f'{chart_id}_trace_1'
         ))
         
         fig.add_hline(
@@ -129,7 +132,8 @@ class PortfolioVisualizer:
             template='plotly_white',
             height=500,
             font=dict(family="Times New Roman"),
-            plot_bgcolor='rgba(173, 216, 230, 0.1)'
+            plot_bgcolor='rgba(173, 216, 230, 0.1)',
+            uirevision=chart_id
         )
         
         return fig
@@ -189,26 +193,39 @@ class PortfolioVisualizer:
         
         return fig
     
-    def plot_allocation(self):
+    def plot_allocation(self, chart_id="allocation"):
         """Plot portfolio allocation pie chart"""
         composition = self.analyzer.get_composition()
+        
+        # Extended color palette for any number of stocks
+        colors = [
+            '#003366', '#004d99', '#0066cc', '#0080ff', '#ADD8E6',
+            '#B0E0E6', '#87CEEB', '#6495ED', '#4169E1', '#1E90FF',
+            '#1873CC', '#0047AB', '#003D7A', '#002E5F', '#001A3E'
+        ]
+        
+        # Ensure we have enough colors for all stocks
+        while len(colors) < len(composition):
+            colors.append(f'hsl({len(colors) * 24}, 70%, 50%)')
         
         fig = go.Figure(data=[go.Pie(
             labels=composition['Stock'],
             values=composition['Weight (%)'],
             hovertemplate='<b>%{label}</b><br>Weight: %{value:.2f}%<extra></extra>',
             marker=dict(
-                colors=['#003366', '#004d99', '#0066cc', '#0080ff', '#ADD8E6'],
+                colors=colors[:len(composition)],
                 line=dict(color='white', width=2)
             ),
             textposition='inside',
-            textinfo='label+percent'
+            textinfo='label+percent',
+            uid=f'{chart_id}_pie_1'
         )])
         
         fig.update_layout(
             title="Portfolio Allocation",
             height=500,
-            font=dict(family="Times New Roman")
+            font=dict(family="Times New Roman"),
+            uirevision=chart_id
         )
         
         return fig
