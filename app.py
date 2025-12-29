@@ -100,34 +100,34 @@ def render_professional_footer():
     </p>
     <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;">
         <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="
-            background: #0077B5;
+            background: #0077B5 !important;
             color: #FFFFFF !important;
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 14px;
-            box-shadow: 0 3px 10px rgba(0, 119, 181, 0.6);
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-            line-height: 1.4;
-            letter-spacing: 0.3px;
+            padding: 14px 28px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 900 !important;
+            font-size: 15px !important;
+            box-shadow: 0 4px 12px rgba(0, 119, 181, 0.7) !important;
+            border: none !important;
+            cursor: pointer !important;
+            display: inline-block !important;
+            line-height: 1.2 !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
         ">🔗 LinkedIn Profile</a>
         <a href="https://github.com/trichyravis/nifty-portfolio-analyzer" target="_blank" style="
-            background: #333;
+            background: #333 !important;
             color: #FFFFFF !important;
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 14px;
-            box-shadow: 0 3px 10px rgba(51, 51, 51, 0.6);
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-            line-height: 1.4;
-            letter-spacing: 0.3px;
+            padding: 14px 28px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            font-weight: 900 !important;
+            font-size: 15px !important;
+            box-shadow: 0 4px 12px rgba(51, 51, 51, 0.7) !important;
+            border: none !important;
+            cursor: pointer !important;
+            display: inline-block !important;
+            line-height: 1.2 !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
         ">🐙 GitHub</a>
     </div>
     <p style="color: #666; font-size: 12px; margin: 0 0 10px 0; line-height: 1.6;">
@@ -189,7 +189,7 @@ def setup_sidebar():
         <h4 style="color: white; margin: 0 0 8px 0; font-size: 13px; font-weight: 600;">Prof. V. Ravichandran</h4>
         <p style="color: #E0E0E0; font-size: 11px; margin: 4px 0; line-height: 1.5;">28+ Years Finance Experience</p>
         <p style="color: #E0E0E0; font-size: 11px; margin: 4px 0 12px 0; line-height: 1.5;">10+ Years Academic Excellence</p>
-        <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="display: inline-block; background: #0077B5; color: #FFFFFF !important; padding: 10px 18px; border-radius: 5px; text-decoration: none; font-weight: 800; font-size: 13px; box-shadow: 0 3px 10px rgba(0, 119, 181, 0.6); line-height: 1.4; border: none; cursor: pointer;">🔗 LinkedIn Profile</a>
+        <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="display: inline-block; background: #0077B5; color: #FFFFFF !important; padding: 12px 20px; border-radius: 5px; text-decoration: none !important; font-weight: 900 !important; font-size: 14px !important; box-shadow: 0 4px 12px rgba(0, 119, 181, 0.7); line-height: 1.2; border: none; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">🔗 LinkedIn Profile</a>
     </div>
     """, unsafe_allow_html=True)
     
