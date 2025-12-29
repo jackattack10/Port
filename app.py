@@ -98,19 +98,18 @@ def render_professional_footer():
     <p style="color: #003366; font-weight: 600; margin: 0 0 20px 0;">
     Prof. V. Ravichandran | 28+ Years Finance Experience
     </p>
-    <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 25px;">
+    <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;">
         <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="
             background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
             color: white !important;
             padding: 12px 24px;
             border-radius: 6px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
-            box-shadow: 0 2px 8px rgba(0, 119, 181, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            box-shadow: 0 3px 10px rgba(0, 119, 181, 0.5);
+            border: none;
+            cursor: pointer;
         ">🔗 LinkedIn Profile</a>
         <a href="https://github.com/trichyravis/nifty-portfolio-analyzer" target="_blank" style="
             background: #333;
@@ -118,12 +117,11 @@ def render_professional_footer():
             padding: 12px 24px;
             border-radius: 6px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
-            box-shadow: 0 2px 8px rgba(51, 51, 51, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            box-shadow: 0 3px 10px rgba(51, 51, 51, 0.5);
+            border: none;
+            cursor: pointer;
         ">🐙 GitHub</a>
     </div>
     <p style="color: #666; font-size: 12px; margin: 0 0 10px 0; line-height: 1.6;">
@@ -145,36 +143,14 @@ def setup_sidebar():
     
     # Professional Dark Blue Sidebar Header
     st.sidebar.markdown("""
-    <div style="
-        background: linear-gradient(135deg, #003366 0%, #004d99 100%);
-        color: white;
-        padding: 20px 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        text-align: left;
-    ">
-        <h1 style="margin: 0; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-        📊 PORTFOLIO ANALYZER
-        </h1>
-        <p style="margin: 8px 0 0 0; font-size: 12px; color: #E0E0E0; font-weight: 500;">
-        Advanced Financial Analysis
-        </p>
+    <div style="background: linear-gradient(135deg, #003366 0%, #004d99 100%); color: white; padding: 20px 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+        <h1 style="margin: 0; font-size: 18px; font-weight: 700;">📊 PORTFOLIO ANALYZER</h1>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: #E0E0E0; font-weight: 500;">Advanced Financial Analysis</p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Mode Selection Section - Dark Blue Background
-    st.sidebar.markdown("""
-    <div style="
-        background: #003366;
-        padding: 15px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-    ">
-        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">
-        Select Mode:
-        </h4>
-    </div>
-    """, unsafe_allow_html=True)
+    # Mode Selection Section
+    st.sidebar.markdown("<h4 style='color: white; background: #003366; padding: 10px; margin: 0 -16px 10px -16px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;'>Select Mode:</h4>", unsafe_allow_html=True)
     
     mode = st.sidebar.radio(
         "Mode",
@@ -182,19 +158,8 @@ def setup_sidebar():
         label_visibility="collapsed"
     )
     
-    # Settings Section - Dark Blue Background
-    st.sidebar.markdown("""
-    <div style="
-        background: #003366;
-        padding: 15px;
-        border-radius: 6px;
-        margin: 15px 0;
-    ">
-        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">
-        Settings:
-        </h4>
-    </div>
-    """, unsafe_allow_html=True)
+    # Settings Section
+    st.sidebar.markdown("<h4 style='color: white; background: #003366; padding: 10px; margin: 10px -16px 10px -16px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;'>Settings:</h4>", unsafe_allow_html=True)
     
     period = st.sidebar.selectbox(
         "Data Period",
@@ -210,63 +175,15 @@ def setup_sidebar():
         step=0.1
     )
     
-    # About This Tool Section - Dark Blue Background with White Text
-    st.sidebar.markdown("""
-    <div style="
-        background: #003366;
-        padding: 15px;
-        border-radius: 6px;
-        margin: 15px 0;
-        border-top: 2px solid #004d99;
-    ">
-        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">
-        About This Tool:
-        </h4>
-        <p style="color: #E0E0E0; font-size: 12px; margin: 0 0 10px 0; line-height: 1.5;">
-        <strong>This platform uses the Five-Lens Framework:</strong>
-        </p>
-        <ul style="color: #E0E0E0; font-size: 12px; margin: 0; padding-left: 20px; line-height: 1.8;">
-            <li>📊 <strong>Valuation (20%)</strong> - P/E, P/B, P/S ratios</li>
-            <li>🏆 <strong>Quality (25%)</strong> - ROE, ROA metrics</li>
-            <li>📈 <strong>Growth (20%)</strong> - Revenue growth</li>
-            <li>💰 <strong>Financial Health (20%)</strong> - D/E, Interest Coverage</li>
-            <li>⚡ <strong>Risk & Momentum (15%)</strong> - Beta, Volatility</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+    st.sidebar.markdown("---")
     
-    # Creator Section - Dark Blue Background with White Text
+    # Creator Section
     st.sidebar.markdown("""
-    <div style="
-        background: #003366;
-        padding: 15px;
-        border-radius: 6px;
-        margin: 15px 0;
-        border-top: 2px solid #004d99;
-        text-align: center;
-    ">
-        <h4 style="color: white; font-size: 14px; font-weight: 600; margin: 0 0 10px 0;">
-        Prof. V. Ravichandran
-        </h4>
-        <p style="color: #E0E0E0; font-size: 12px; margin: 5px 0; line-height: 1.6;">
-        28+ Years Finance Experience
-        </p>
-        <p style="color: #E0E0E0; font-size: 12px; margin: 5px 0 15px 0; line-height: 1.6;">
-        10+ Years Academic Excellence
-        </p>
-        
-        <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="
-            display: inline-block;
-            background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 12px;
-            box-shadow: 0 2px 8px rgba(0, 119, 181, 0.4);
-            margin-top: 10px;
-        ">🔗 LinkedIn Profile</a>
+    <div style="background: #003366; color: white; padding: 15px; border-radius: 6px; text-align: center;">
+        <h4 style="color: white; margin: 0 0 8px 0; font-size: 13px; font-weight: 600;">Prof. V. Ravichandran</h4>
+        <p style="color: #E0E0E0; font-size: 11px; margin: 4px 0; line-height: 1.5;">28+ Years Finance Experience</p>
+        <p style="color: #E0E0E0; font-size: 11px; margin: 4px 0 12px 0; line-height: 1.5;">10+ Years Academic Excellence</p>
+        <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #0077B5 0%, #005885 100%); color: white !important; padding: 8px 16px; border-radius: 5px; text-decoration: none; font-weight: 700; font-size: 11px; box-shadow: 0 3px 10px rgba(0, 119, 181, 0.5);">🔗 LinkedIn Profile</a>
     </div>
     """, unsafe_allow_html=True)
     
