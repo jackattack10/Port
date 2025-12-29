@@ -409,6 +409,14 @@ def show_portfolio_analysis(period, risk_free_rate):
             if stocks_a and not valid_a:
                 st.error(error_a)
                 st.stop()
+        
+        if st.button("🔍 Analyze Portfolios", use_container_width=True):
+            valid_a, error_a = validate_weights(weights_a, "Portfolio A")
+            valid_b, error_b = validate_weights(weights_b, "Portfolio B")
+            
+            if stocks_a and not valid_a:
+                st.error(error_a)
+                st.stop()
             if stocks_b and not valid_b:
                 st.error(error_b)
                 st.stop()
@@ -473,273 +481,100 @@ def show_portfolio_analysis(period, risk_free_rate):
                                     except Exception as e:
                                         st.warning(f"⚠️ Chart error: {str(e)}")
                                 
-                                # Portfolio Comparison Analysis
-        st.markdown("---")
-        st.markdown("<h2 class='section-header'>📊 Portfolio Comparison Analysis</h2>", unsafe_allow_html=True)
-        
-        # Create comparison dataframe
-        comparison_data = {
-            'Metric': [
-                'CAGR',
-                'Total Return',
-                'Annual Volatility',
-                'Sharpe Ratio',
-                'Sortino Ratio',
-                'Information Ratio',
-                'Calmar Ratio',
-                'Max Drawdown',
-                'Value at Risk (VaR)',
-                'Skewness'
-            ],
-            'Portfolio A': [
-                f"{metrics_a.get('CAGR', 0)*100:.2f}%",
-                f"{metrics_a.get('Total Return', 0)*100:.2f}%",
-                f"{metrics_a.get('Annual Volatility', 0)*100:.2f}%",
-                f"{metrics_a.get('Sharpe Ratio', 0):.3f}",
-                f"{metrics_a.get('Sortino Ratio', 0):.3f}",
-                f"{metrics_a.get('Information Ratio', 0):.3f}",
-                f"{metrics_a.get('Calmar Ratio', 0):.3f}",
-                f"{metrics_a.get('Max Drawdown', 0)*100:.2f}%",
-                f"{metrics_a.get('Value at Risk', 0)*100:.2f}%",
-                f"{metrics_a.get('Skewness', 0):.3f}"
-            ],
-            'Portfolio B': [
-                f"{metrics_b.get('CAGR', 0)*100:.2f}%",
-                f"{metrics_b.get('Total Return', 0)*100:.2f}%",
-                f"{metrics_b.get('Annual Volatility', 0)*100:.2f}%",
-                f"{metrics_b.get('Sharpe Ratio', 0):.3f}",
-                f"{metrics_b.get('Sortino Ratio', 0):.3f}",
-                f"{metrics_b.get('Information Ratio', 0):.3f}",
-                f"{metrics_b.get('Calmar Ratio', 0):.3f}",
-                f"{metrics_b.get('Max Drawdown', 0)*100:.2f}%",
-                f"{metrics_b.get('Value at Risk', 0)*100:.2f}%",
-                f"{metrics_b.get('Skewness', 0):.3f}"
-            ]
-        }
-        
-        comparison_df = pd.DataFrame(comparison_data)
-        
-        # Display comparison table
-        st.subheader("📈 Metrics Comparison")
-        st.dataframe(comparison_df, use_container_width=True)
-        
-        # Generate Analysis Summary
-        st.subheader("📋 Analysis Summary")
-        
-        # Compare CAGR
-        cagr_a = metrics_a.get('CAGR', 0)
-        cagr_b = metrics_b.get('CAGR', 0)
-        cagr_winner = "Portfolio A" if cagr_a > cagr_b else "Portfolio B" if cagr_b > cagr_a else "Equal"
-        cagr_diff = abs(cagr_a - cagr_b) * 100
-        
-        # Compare Volatility
-        vol_a = metrics_a.get('Annual Volatility', 0)
-        vol_b = metrics_b.get('Annual Volatility', 0)
-        vol_lower = "Portfolio A" if vol_a < vol_b else "Portfolio B" if vol_b < vol_a else "Equal"
-        vol_diff = abs(vol_a - vol_b) * 100
-        
-        # Compare Sharpe Ratio
-        sharpe_a = metrics_a.get('Sharpe Ratio', 0)
-        sharpe_b = metrics_b.get('Sharpe Ratio', 0)
-        sharpe_winner = "Portfolio A" if sharpe_a > sharpe_b else "Portfolio B" if sharpe_b > sharpe_a else "Equal"
-        
-        # Compare Max Drawdown
-        dd_a = metrics_a.get('Max Drawdown', 0)
-        dd_b = metrics_b.get('Max Drawdown', 0)
-        dd_better = "Portfolio A" if dd_a > dd_b else "Portfolio B" if dd_b > dd_a else "Equal"
-        dd_diff = abs(dd_a - dd_b) * 100
-        
-        # Create summary columns
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("#### 📊 Return Analysis")
-            st.markdown(f"""
-            **CAGR Winner:** {cagr_winner}
-            - Difference: {cagr_diff:.2f}%
-            - Portfolio A: {cagr_a*100:.2f}%
-            - Portfolio B: {cagr_b*100:.2f}%
-            
-            **Interpretation:** CAGR (Compound Annual Growth Rate) shows average yearly returns.
-            Higher CAGR means better long-term growth.
-            """)
-        
-        with col2:
-            st.markdown("#### 📈 Risk Analysis")
-            st.markdown(f"""
-            **Lower Volatility:** {vol_lower}
-            - Difference: {vol_diff:.2f}%
-            - Portfolio A: {vol_a*100:.2f}%
-            - Portfolio B: {vol_b*100:.2f}%
-            
-            **Interpretation:** Volatility measures price fluctuations.
-            Lower volatility means more stable returns.
-            """)
-        
-        col3, col4 = st.columns(2)
-        
-        with col3:
-            st.markdown("#### ⚖️ Risk-Adjusted Returns")
-            st.markdown(f"""
-            **Better Sharpe Ratio:** {sharpe_winner}
-            - Portfolio A: {sharpe_a:.3f}
-            - Portfolio B: {sharpe_b:.3f}
-            
-            **Interpretation:** Sharpe Ratio measures returns per unit of risk.
-            Higher is better. >1 is excellent, >2 is exceptional.
-            """)
-        
-        with col4:
-            st.markdown("#### 📉 Drawdown Analysis")
-            st.markdown(f"""
-            **Better Max Drawdown:** {dd_better}
-            - Difference: {dd_diff:.2f}%
-            - Portfolio A: {dd_a*100:.2f}%
-            - Portfolio B: {dd_b*100:.2f}%
-            
-            **Interpretation:** Max Drawdown is peak-to-trough decline.
-            Less negative (closer to 0) is better. Shows worst-case loss.
-            """)
-        
-        # Overall Recommendation
-        st.markdown("---")
-        st.subheader("🎯 Overall Assessment")
-        
-        # Scoring system
-        score_a = 0
-        score_b = 0
-        
-        if cagr_a > cagr_b:
-            score_a += 1
-        elif cagr_b > cagr_a:
-            score_b += 1
-        
-        if vol_a < vol_b:
-            score_a += 1
-        elif vol_b < vol_a:
-            score_b += 1
-        
-        if sharpe_a > sharpe_b:
-            score_a += 1
-        elif sharpe_b > sharpe_a:
-            score_b += 1
-        
-        if dd_a > dd_b:
-            score_a += 1
-        elif dd_b > dd_a:
-            score_b += 1
-        
-        total_score = max(score_a, score_b)
-        
-        if score_a > score_b:
-            winner = "Portfolio A"
-            winner_score = score_a
-            loser_score = score_b
-        elif score_b > score_a:
-            winner = "Portfolio B"
-            winner_score = score_b
-            loser_score = score_a
-        else:
-            winner = "Both"
-            winner_score = score_a
-            loser_score = score_b
-        
-        st.markdown(f"""
-        ### {winner} Wins! ({winner_score}/{total_score} metrics)
-        
-        **Metric Scores:**
-        - Portfolio A: {score_a}/{total_score}
-        - Portfolio B: {score_b}/{total_score}
-        
-        **Key Strengths:**
-        """)
-        
-        if score_a > score_b:
-            st.success(f"✅ Portfolio A is stronger across more metrics")
-            st.markdown(f"""
-            - Better return potential (CAGR: {cagr_a*100:.2f}%)
-            - Risk-adjusted returns favorable
-            - Use when: You prioritize growth with acceptable risk
-            """)
-        elif score_b > score_a:
-            st.success(f"✅ Portfolio B is stronger across more metrics")
-            st.markdown(f"""
-            - Better return potential (CAGR: {cagr_b*100:.2f}%)
-            - Risk-adjusted returns favorable
-            - Use when: You prioritize growth with acceptable risk
-            """)
-        else:
-            st.info(f"✅ Both portfolios are balanced")
-            st.markdown(f"""
-            - Choose based on your specific goals
-            - Portfolio A: Focus on specific metrics
-            - Portfolio B: Alternative approach
-            """)
-        
-        # Detailed Insights
-        st.markdown("---")
-        st.subheader("💡 Detailed Insights")
-        
-        insight_col1, insight_col2 = st.columns(2)
-        
-        with insight_col1:
-            st.markdown("#### Portfolio A Details")
-            st.markdown(f"""
-            **Growth Profile:**
-            - Annual Return: {metrics_a.get('Annual Return', 0)*100:.2f}%
-            - Total Return: {metrics_a.get('Total Return', 0)*100:.2f}%
-            
-            **Risk Metrics:**
-            - Volatility: {metrics_a.get('Annual Volatility', 0)*100:.2f}%
-            - Max Drawdown: {metrics_a.get('Max Drawdown', 0)*100:.2f}%
-            - Value at Risk: {metrics_a.get('Value at Risk', 0)*100:.2f}%
-            
-            **Quality Scores:**
-            - Sharpe Ratio: {metrics_a.get('Sharpe Ratio', 0):.3f}
-            - Sortino Ratio: {metrics_a.get('Sortino Ratio', 0):.3f}
-            - Information Ratio: {metrics_a.get('Information Ratio', 0):.3f}
-            - Calmar Ratio: {metrics_a.get('Calmar Ratio', 0):.3f}
-            """)
-        
-        with insight_col2:
-            st.markdown("#### Portfolio B Details")
-            st.markdown(f"""
-            **Growth Profile:**
-            - Annual Return: {metrics_b.get('Annual Return', 0)*100:.2f}%
-            - Total Return: {metrics_b.get('Total Return', 0)*100:.2f}%
-            
-            **Risk Metrics:**
-            - Volatility: {metrics_b.get('Annual Volatility', 0)*100:.2f}%
-            - Max Drawdown: {metrics_b.get('Max Drawdown', 0)*100:.2f}%
-            - Value at Risk: {metrics_b.get('Value at Risk', 0)*100:.2f}%
-            
-            **Quality Scores:**
-            - Sharpe Ratio: {metrics_b.get('Sharpe Ratio', 0):.3f}
-            - Sortino Ratio: {metrics_b.get('Sortino Ratio', 0):.3f}
-            - Information Ratio: {metrics_b.get('Information Ratio', 0):.3f}
-            - Calmar Ratio: {metrics_b.get('Calmar Ratio', 0):.3f}
-            """)
-        
-        # Recommendation
-        st.markdown("---")
-        st.subheader("📌 Recommendation")
-        
-        if cagr_a >= cagr_b and sharpe_a >= sharpe_b:
-            st.success("✅ Portfolio A: Better for Growth + Risk-Adjusted Returns")
-        elif cagr_b >= cagr_a and sharpe_b >= sharpe_a:
-            st.success("✅ Portfolio B: Better for Growth + Risk-Adjusted Returns")
-        elif cagr_a > cagr_b:
-            st.info("📊 Portfolio A: Higher Growth (but check risk metrics)")
-        elif cagr_b > cagr_a:
-            st.info("📊 Portfolio B: Higher Growth (but check risk metrics)")
-        else:
-            st.info("⚖️ Comparable Performance: Choose based on your preference")
+                                st.success("✅ Portfolio B analysis complete!")
                         except Exception as e:
                             st.error(f"❌ Error: {str(e)}")
+                    
+                    # Portfolio Comparison Analysis
+                    if stocks_a and weights_a and stocks_b and weights_b:
+                        try:
+                            st.markdown("---")
+                            st.markdown("<h2 class='section-header'>📊 Portfolio Comparison Analysis</h2>", unsafe_allow_html=True)
+                            
+                            # Create comparison dataframe
+                            comparison_data = {
+                                'Metric': [
+                                    'CAGR',
+                                    'Total Return',
+                                    'Annual Volatility',
+                                    'Sharpe Ratio',
+                                    'Sortino Ratio',
+                                    'Information Ratio',
+                                    'Calmar Ratio',
+                                    'Max Drawdown',
+                                    'Value at Risk (VaR)',
+                                    'Skewness'
+                                ],
+                                'Portfolio A': [
+                                    f"{metrics_a.get('CAGR', 0)*100:.2f}%",
+                                    f"{metrics_a.get('Total Return', 0)*100:.2f}%",
+                                    f"{metrics_a.get('Annual Volatility', 0)*100:.2f}%",
+                                    f"{metrics_a.get('Sharpe Ratio', 0):.3f}",
+                                    f"{metrics_a.get('Sortino Ratio', 0):.3f}",
+                                    f"{metrics_a.get('Information Ratio', 0):.3f}",
+                                    f"{metrics_a.get('Calmar Ratio', 0):.3f}",
+                                    f"{metrics_a.get('Max Drawdown', 0)*100:.2f}%",
+                                    f"{metrics_a.get('Value at Risk', 0)*100:.2f}%",
+                                    f"{metrics_a.get('Skewness', 0):.3f}"
+                                ],
+                                'Portfolio B': [
+                                    f"{metrics_b.get('CAGR', 0)*100:.2f}%",
+                                    f"{metrics_b.get('Total Return', 0)*100:.2f}%",
+                                    f"{metrics_b.get('Annual Volatility', 0)*100:.2f}%",
+                                    f"{metrics_b.get('Sharpe Ratio', 0):.3f}",
+                                    f"{metrics_b.get('Sortino Ratio', 0):.3f}",
+                                    f"{metrics_b.get('Information Ratio', 0):.3f}",
+                                    f"{metrics_b.get('Calmar Ratio', 0):.3f}",
+                                    f"{metrics_b.get('Max Drawdown', 0)*100:.2f}%",
+                                    f"{metrics_b.get('Value at Risk', 0)*100:.2f}%",
+                                    f"{metrics_b.get('Skewness', 0):.3f}"
+                                ]
+                            }
+                            
+                            comparison_df = pd.DataFrame(comparison_data)
+                            st.subheader("📈 Metrics Comparison")
+                            st.dataframe(comparison_df, use_container_width=True)
+                            
+                            # Quick comparison
+                            st.subheader("📋 Quick Analysis")
+                            cagr_a = metrics_a.get('CAGR', 0)
+                            cagr_b = metrics_b.get('CAGR', 0)
+                            sharpe_a = metrics_a.get('Sharpe Ratio', 0)
+                            sharpe_b = metrics_b.get('Sharpe Ratio', 0)
+                            
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                st.markdown(f"""
+                                **Portfolio A**
+                                - CAGR: {cagr_a*100:.2f}%
+                                - Sharpe: {sharpe_a:.3f}
+                                """)
+                            
+                            with col2:
+                                st.markdown(f"""
+                                **Portfolio B**
+                                - CAGR: {cagr_b*100:.2f}%
+                                - Sharpe: {sharpe_b:.3f}
+                                """)
+                            
+                            # Winner determination
+                            if cagr_a > cagr_b and sharpe_a > sharpe_b:
+                                st.success("✅ Portfolio A: Better on both growth and risk-adjusted returns")
+                            elif cagr_b > cagr_a and sharpe_b > sharpe_a:
+                                st.success("✅ Portfolio B: Better on both growth and risk-adjusted returns")
+                            elif cagr_a > cagr_b:
+                                st.info("📊 Portfolio A: Higher returns (but check volatility)")
+                            elif cagr_b > cagr_a:
+                                st.info("📊 Portfolio B: Higher returns (but check volatility)")
+                            else:
+                                st.info("⚖️ Comparable performance - choose based on your preference")
+                        
+                        except Exception as e:
+                            st.error(f"❌ Comparison error: {str(e)}")
                 
                 except Exception as e:
-                    st.error(f"Error: {str(e)}")
-
+                    st.error(f"❌ Analysis Error: {str(e)}")
+    
     except Exception as e:
         st.error(f"Error: {str(e)}")
 
@@ -750,21 +585,21 @@ def display_metrics(metrics):
     with col1:
         st.metric("CAGR", f"{metrics.get('CAGR', 0)*100:.2f}%")
     with col2:
-        st.metric("Total Return", f"{metrics.get('Total Return', 0)*100:.2f}%")
+        st.metric("Annual Return", f"{metrics.get('Annual Return', 0)*100:.2f}%")
     with col3:
         st.metric("Volatility", f"{metrics.get('Annual Volatility', 0)*100:.2f}%")
     with col4:
-        st.metric("Max Drawdown", f"{metrics.get('Max Drawdown', 0)*100:.2f}%")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
         st.metric("Sharpe Ratio", f"{metrics.get('Sharpe Ratio', 0):.3f}")
-    with col2:
+    
+    col5, col6, col7, col8 = st.columns(4)
+    with col5:
         st.metric("Sortino Ratio", f"{metrics.get('Sortino Ratio', 0):.3f}")
-    with col3:
-        st.metric("Information Ratio", f"{metrics.get('Information Ratio', 0):.3f}")
-    with col4:
+    with col6:
+        st.metric("Max Drawdown", f"{metrics.get('Max Drawdown', 0)*100:.2f}%")
+    with col7:
         st.metric("Calmar Ratio", f"{metrics.get('Calmar Ratio', 0):.3f}")
+    with col8:
+        st.metric("Information Ratio", f"{metrics.get('Information Ratio', 0):.3f}")
 
 # ============================================================================
 # SINGLE STOCK ANALYSIS
@@ -777,6 +612,7 @@ def show_single_stock_analysis(period, risk_free_rate):
     <div class="main-header">
         <h1 style="margin: 0;">📈 Single Stock Analysis</h1>
     </div>
+    
     """, unsafe_allow_html=True)
     
     try:
