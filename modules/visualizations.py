@@ -73,7 +73,7 @@ class PortfolioVisualizer:
             height=500,
             font=dict(family="Times New Roman"),
             plot_bgcolor='rgba(173, 216, 230, 0.1)',
-            hoverdata={'Portfolio Value': ':.2f'}
+            
         )
         
         return fig
