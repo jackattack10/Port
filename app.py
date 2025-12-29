@@ -4,7 +4,7 @@ THE MOUNTAIN PATH - NIFTY PORTFOLIO ANALYZER
 Advanced Portfolio Analysis Platform
 Prof. V. Ravichandran | 28+ Years Finance Experience | 10+ Years Academic Excellence
 
-Version: 2.0 (Professional Design)
+Version: 3.0 (Professional Sidebar & Footer)
 """
 
 import streamlit as st
@@ -44,132 +44,6 @@ except ImportError as e:
     st.stop()
 
 # ============================================================================
-# LINKEDIN INTEGRATION FUNCTIONS
-# ============================================================================
-
-def render_linkedin_sidebar():
-    """Render LinkedIn profile in sidebar - SIMPLIFIED"""
-    st.sidebar.markdown("---")
-    
-    # Profile Card
-    st.sidebar.markdown('''
-    <div style="
-        background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
-        border-radius: 10px;
-        padding: 12px;
-        border-left: 3px solid #FFD700;
-    ">
-    <h4 style="color: #FFD700; margin: 0 0 10px 0; font-size: 13px; font-weight: 600;">
-    👨‍🏫 Prof. V. Ravichandran
-    </h4>
-    <p style="color: #E0E0E0; margin: 4px 0; font-size: 11px;">✓ 28+ Yrs Finance</p>
-    <p style="color: #E0E0E0; margin: 4px 0; font-size: 11px;">✓ 10+ Yrs Academic</p>
-    <p style="color: #E0E0E0; margin: 4px 0; font-size: 11px;">✓ Risk Expert</p>
-    </div>
-    ''', unsafe_allow_html=True)
-    
-    # LinkedIn Button
-    st.sidebar.markdown(
-        '<a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="'
-        'display: block; background: linear-gradient(135deg, #0077B5 0%, #005885 100%); '
-        'color: white !important; padding: 8px 12px; border-radius: 5px; '
-        'text-decoration: none; font-weight: 600; font-size: 11px; '
-        'text-align: center; width: 100%; margin-top: 8px; '
-        'box-shadow: 0 2px 8px rgba(0,119,181,0.3);">'
-        '🔗 LinkedIn Profile</a>',
-        unsafe_allow_html=True
-    )
-
-
-def render_five_lens_cards():
-    """Render Five-Lens Framework cards"""
-    st.markdown("""
-    <h3 style="text-align: center; margin-top: 30px; color: #003366;">📊 Five-Lens Framework</h3>
-    """, unsafe_allow_html=True)
-    
-    # Framework components
-    components = [
-        {"title": "Valuation", "pct": "20%", "icon": "📊", "metrics": "P/E, P/B, P/S ratios"},
-        {"title": "Quality", "pct": "25%", "icon": "🏆", "metrics": "ROE, ROA metrics"},
-        {"title": "Growth", "pct": "20%", "icon": "📈", "metrics": "Revenue growth"},
-        {"title": "Financial Health", "pct": "20%", "icon": "💰", "metrics": "D/E, Interest Coverage"},
-        {"title": "Risk & Momentum", "pct": "15%", "icon": "⚡", "metrics": "Beta, Volatility"}
-    ]
-    
-    # Create columns for cards
-    cols = st.columns(5)
-    
-    for idx, (col, component) in enumerate(zip(cols, components)):
-        with col:
-            st.markdown(f"""
-            <div style="
-                background: linear-gradient(135deg, #003366 0%, #004d99 100%);
-                border-radius: 15px;
-                padding: 20px;
-                text-align: center;
-                color: white;
-                height: 180px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                box-shadow: 0 4px 15px rgba(0, 51, 102, 0.3);
-            ">
-            <div style="font-size: 40px;">{component['icon']}</div>
-            <div>
-                <h4 style="margin: 10px 0; font-size: 14px; font-weight: 600;">
-                {component['title']}
-                </h4>
-                <p style="margin: 5px 0; font-size: 12px; color: #FFD700;">
-                ({component['pct']})
-                </p>
-            </div>
-            <div style="font-size: 11px; color: #E0E0E0;">
-            {component['metrics']}
-            </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-
-def render_professional_footer():
-    """Render professional footer with buttons"""
-    st.markdown("---")
-    st.markdown("""
-    <div style="text-align: center; padding: 30px 20px;">
-        <h3 style="color: #003366; margin-bottom: 10px;">
-        THE MOUNTAIN PATH - WORLD OF FINANCE
-        </h3>
-        <p style="color: #666; margin-bottom: 20px;">
-        Advanced Portfolio Analysis Platform with Financial Metrics
-        </p>
-        <p style="color: #003366; font-weight: 600; margin-bottom: 20px;">
-        Prof. V. Ravichandran | 28+ Years Finance Experience
-        </p>
-        
-        <div style="display: flex; justify-content: center; gap: 10px;">
-            <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="
-                background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
-                color: white !important;
-                padding: 10px 20px;
-                border-radius: 6px;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 13px;
-            ">🔗 LinkedIn Profile</a>
-            
-            <a href="https://github.com/trichydavis/nifty-portfolio-analyzer" target="_blank" style="
-                background: #333;
-                color: white !important;
-                padding: 10px 20px;
-                border-radius: 6px;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 13px;
-            ">🐙 GitHub</a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-# ============================================================================
 # PAGE CONFIGURATION
 # ============================================================================
 
@@ -180,7 +54,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# Custom CSS - Enhanced Design
 st.markdown("""
 <style>
     * {
@@ -203,35 +77,100 @@ st.markdown("""
         background-clip: text;
         margin-bottom: 20px;
     }
-    
-    .sidebar-header {
-        background: #003366;
-        color: white;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
 </style>
 """, unsafe_allow_html=True)
+
+# ============================================================================
+# FOOTER FUNCTIONS
+# ============================================================================
+
+def render_professional_footer():
+    """Render professional footer with disclaimer and buttons"""
+    st.markdown("---")
+    st.markdown("""
+    <div style="text-align: center; padding: 40px 20px; background: #f8f9fa; border-radius: 10px; margin-top: 30px;">
+        
+        <h3 style="color: #003366; margin: 0 0 15px 0; font-size: 18px; font-weight: 700; letter-spacing: 1px;">
+        THE MOUNTAIN PATH - WORLD OF FINANCE
+        </h3>
+        
+        <p style="color: #555; margin: 0 0 15px 0; font-size: 14px;">
+        Advanced Portfolio Analysis Platform with Financial Metrics
+        </p>
+        
+        <p style="color: #003366; font-weight: 600; margin: 0 0 20px 0;">
+        Prof. V. Ravichandran | 28+ Years Finance Experience
+        </p>
+        
+        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 25px;">
+            <a href="https://www.linkedin.com/in/trichyravis" target="_blank" style="
+                background: linear-gradient(135deg, #0077B5 0%, #005885 100%);
+                color: white !important;
+                padding: 12px 24px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 13px;
+                box-shadow: 0 2px 8px rgba(0, 119, 181, 0.3);
+            ">🔗 LinkedIn Profile</a>
+            
+            <a href="https://github.com/trichyravis/nifty-portfolio-analyzer" target="_blank" style="
+                background: #333;
+                color: white !important;
+                padding: 12px 24px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 13px;
+                box-shadow: 0 2px 8px rgba(51, 51, 51, 0.3);
+            ">🐙 GitHub</a>
+        </div>
+        
+        <p style="color: #666; font-size: 12px; margin: 0 0 10px 0; line-height: 1.6;">
+        <strong>Disclaimer:</strong> This tool is for educational purposes. Not financial advice. 
+        Always consult with a qualified financial advisor before making investment decisions.
+        </p>
+        
+        <p style="color: #999; font-size: 11px; margin: 0;">
+        📊 Last Updated: {last_updated}
+        </p>
+        
+    </div>
+    """.format(last_updated=datetime.now().strftime("%Y-%m-%d %H:%M:%S")), unsafe_allow_html=True)
 
 # ============================================================================
 # SIDEBAR SETUP
 # ============================================================================
 
 def setup_sidebar():
-    """Setup sidebar navigation - Professional Design"""
+    """Setup professional sidebar navigation"""
     
-    # Sidebar Header
+    # Professional Dark Blue Sidebar Header
     st.sidebar.markdown("""
-    <div style="background: #003366; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
-        <h3 style="margin: 0; font-size: 16px; font-weight: 700;">📊 PORTFOLIO ANALYZER</h3>
-        <p style="margin: 8px 0 0 0; font-size: 12px;">The Mountain Path</p>
+    <div style="
+        background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+        color: white;
+        padding: 20px 15px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        text-align: left;
+    ">
+        <h1 style="margin: 0; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+        📊 PORTFOLIO ANALYZER
+        </h1>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: #E0E0E0; font-weight: 500;">
+        Advanced Financial Analysis
+        </p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Mode Selection
-    st.sidebar.markdown("<h4 style='color: #003366;'>Select Mode:</h4>", unsafe_allow_html=True)
+    # Mode Selection Section
+    st.sidebar.markdown("""
+    <h4 style="color: #003366; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+    Select Mode:
+    </h4>
+    """, unsafe_allow_html=True)
+    
     mode = st.sidebar.radio(
         "Mode",
         ["Landing Page", "Portfolio Analysis", "Single Stock Analysis"],
@@ -240,8 +179,12 @@ def setup_sidebar():
     
     st.sidebar.markdown("---")
     
-    # Settings
-    st.sidebar.markdown("<h4 style='color: #003366;'>Settings:</h4>", unsafe_allow_html=True)
+    # Settings Section
+    st.sidebar.markdown("""
+    <h4 style="color: #003366; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+    Settings:
+    </h4>
+    """, unsafe_allow_html=True)
     
     period = st.sidebar.selectbox(
         "Data Period",
@@ -257,8 +200,27 @@ def setup_sidebar():
         step=0.1
     )
     
-    # LinkedIn Profile
-    render_linkedin_sidebar()
+    # About This Tool Section
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("""
+    <h4 style="color: #003366; font-size: 13px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+    About This Tool:
+    </h4>
+    """, unsafe_allow_html=True)
+    
+    st.sidebar.markdown("""
+    <div style="font-size: 12px; color: #555; line-height: 1.6;">
+    <p style="margin: 0 0 10px 0;"><strong>Advanced Financial Analysis Platform</strong></p>
+    <p style="margin: 0 0 10px 0;">This platform provides comprehensive portfolio analysis with:</p>
+    <ul style="margin: 0; padding-left: 20px;">
+    <li>📊 Portfolio Comparison (A & B)</li>
+    <li>📈 Single Stock Analysis</li>
+    <li>💰 25+ Financial Metrics</li>
+    <li>📉 Interactive Visualizations</li>
+    <li>⚖️ Risk Assessment Tools</li>
+    </ul>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.sidebar.markdown("---")
     st.sidebar.caption("© 2024 Prof. V. Ravichandran")
@@ -276,7 +238,7 @@ def show_landing_page():
     st.markdown("""
     <div style="
         background: linear-gradient(135deg, #003366 0%, #004d99 100%);
-        padding: 40px;
+        padding: 50px;
         border-radius: 15px;
         color: white;
         text-align: center;
@@ -316,22 +278,6 @@ def show_landing_page():
         """)
     
     st.markdown("---")
-    
-    # Framework Display
-    render_five_lens_cards()
-    
-    st.markdown("---")
-    
-    # About Creator
-    st.markdown("""
-    ### 👨‍🏫 Creator
-    
-    **Prof. V. Ravichandran**
-    
-    28+ Years Corporate Finance & Banking Experience  
-    10+ Years Academic Excellence  
-    Expert in Financial Risk Management & Derivatives
-    """)
     
     # Professional Footer
     render_professional_footer()
