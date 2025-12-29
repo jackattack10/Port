@@ -1,3 +1,4 @@
+
 """
 METRICS CALCULATOR MODULE
 Calculates all performance and risk metrics for portfolios
@@ -108,12 +109,22 @@ class MetricsCalculator:
     
     def calculate_information_ratio(self):
         """Calculate Information Ratio"""
-        benchmark_return = self.daily_returns.mean()
-        active_return = self.daily_returns.mean() - benchmark_return
-        tracking_error = self.calculate_tracking_error()
-        if tracking_error == 0:
+        # Information Ratio = (Portfolio Return - Risk-Free Rate) / Tracking Error
+        portfolio_annual_return = self.calculate_annual_return()
+        
+        # Calculate excess return over risk-free rate
+        excess_return = portfolio_annual_return - self.risk_free_rate
+        
+        # Calculate tracking error relative to risk-free rate
+        # Risk-free daily return
+        daily_rf_return = self.risk_free_rate / 252
+        active_returns = self.daily_returns - daily_rf_return
+        tracking_error = active_returns.std() * np.sqrt(252)
+        
+        if tracking_error == 0 or tracking_error < 0.0001:
             return 0
-        ir = (active_return * 252) / tracking_error
+        
+        ir = excess_return / tracking_error
         return ir
     
     def calculate_sortino_ratio(self):
