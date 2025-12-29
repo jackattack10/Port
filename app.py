@@ -402,15 +402,7 @@ def show_portfolio_analysis(period, risk_free_rate):
         
         st.markdown("---")
         
-        if st.button("🔍 Analyze Portfolios", use_container_width=True):
-            valid_a, error_a = validate_weights(weights_a, "Portfolio A")
-            valid_b, error_b = validate_weights(weights_b, "Portfolio B")
-            
-            if stocks_a and not valid_a:
-                st.error(error_a)
-                st.stop()
-        
-        if st.button("🔍 Analyze Portfolios", use_container_width=True):
+        if st.button("🔍 Analyze Portfolios", use_container_width=True, key="analyze_portfolios"):
             valid_a, error_a = validate_weights(weights_a, "Portfolio A")
             valid_b, error_b = validate_weights(weights_b, "Portfolio B")
             
@@ -621,7 +613,7 @@ def show_single_stock_analysis(period, risk_free_rate):
         
         selected_stock = st.selectbox("Select Stock", options=nifty_stocks)
         
-        if st.button("🔍 Analyze", use_container_width=True):
+        if st.button("🔍 Analyze", use_container_width=True, key="analyze_single_stock"):
             with st.spinner(f"Analyzing {selected_stock}..."):
                 data = fetcher.fetch_stock_data([selected_stock], period)
                 analyzer = PortfolioAnalyzer([selected_stock], {selected_stock: 100}, data)
