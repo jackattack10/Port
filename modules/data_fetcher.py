@@ -44,7 +44,7 @@ class NiftyDataFetcher:
     
     def fetch_stock_data(self, stocks, period='1y'):
         """
-        Fetch historical stock data from Yahoo Finance
+        Fetch historical stock data from Yahoo Finance with caching
         
         Args:
             stocks (list): List of stock symbols (without .NS suffix)
@@ -53,41 +53,62 @@ class NiftyDataFetcher:
         Returns:
             pd.DataFrame: Close prices for all stocks
         """
+        import time
+        
         # Add .NS suffix for Yahoo Finance
         stock_symbols = [f"{stock}.NS" if not stock.endswith('.NS') else stock for stock in stocks]
         
         try:
-            # Download data
-            data = yf.download(
-                stock_symbols,
-                period=period,
-                progress=False,
-                interval='1d'
-            )
+            # Download with retry logic for rate limiting
+            max_retries = 2
+            retry_count = 0
             
-            # Handle single stock case
-            if len(stock_symbols) == 1:
-                # For single stock, yfinance returns a Series for 'Close'
-                if isinstance(data, pd.DataFrame):
-                    close_data = data['Close']
-                else:
-                    close_data = data
+            while retry_count < max_retries:
+                try:
+                    # Download data
+                    data = yf.download(
+                        stock_symbols,
+                        period=period,
+                        progress=False,
+                        interval='1d',
+                        timeout=30
+                    )
+                    
+                    # Handle single stock case
+                    if len(stock_symbols) == 1:
+                        # For single stock, yfinance returns a Series for 'Close'
+                        if isinstance(data, pd.DataFrame):
+                            close_data = data['Close']
+                        else:
+                            close_data = data
+                        
+                        # Create DataFrame with stock name
+                        data = pd.DataFrame({stocks[0]: close_data})
+                    else:
+                        # Extract closing prices for multiple stocks
+                        data = data['Close']
+                        # Rename columns to remove .NS suffix
+                        data.columns = stocks
+                    
+                    # Drop NaN values
+                    data = data.dropna()
+                    
+                    if data.empty:
+                        raise Exception(f"No valid data retrieved for {stocks}")
+                    
+                    return data
                 
-                # Create DataFrame with stock name
-                data = pd.DataFrame({stocks[0]: close_data})
-            else:
-                # Extract closing prices for multiple stocks
-                data = data['Close']
-                # Rename columns to remove .NS suffix
-                data.columns = stocks
-            
-            # Drop NaN values
-            data = data.dropna()
-            
-            if data.empty:
-                raise Exception(f"No valid data retrieved for {stocks}")
-            
-            return data
+                except Exception as e:
+                    retry_count += 1
+                    if "rate" in str(e).lower() or "too many" in str(e).lower():
+                        if retry_count < max_retries:
+                            wait_time = 5 * retry_count
+                            print(f"Rate limited. Waiting {wait_time} seconds...")
+                            time.sleep(wait_time)
+                        else:
+                            raise Exception(f"Rate limited after retries for {stocks}")
+                    else:
+                        raise Exception(f"Error fetching data for {stocks}: {str(e)}")
         
         except Exception as e:
             raise Exception(f"Error fetching data for {stocks}: {str(e)}")
