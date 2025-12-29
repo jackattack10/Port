@@ -270,6 +270,12 @@ def show_portfolio_analysis(period, risk_free_rate):
         fetcher = NiftyDataFetcher()
         nifty_stocks = fetcher.get_nifty_50_stocks()
         
+        # Initialize tracking for portfolio A
+        if 'last_stocks_a_count' not in st.session_state:
+            st.session_state.last_stocks_a_count = 0
+        if 'last_stocks_b_count' not in st.session_state:
+            st.session_state.last_stocks_b_count = 0
+        
         col1, col2 = st.columns(2)
         
         with col1:
@@ -282,32 +288,37 @@ def show_portfolio_analysis(period, risk_free_rate):
             
             weights_a = {}
             if stocks_a:
-                # Show info about equal weight distribution
-                equal_weight = 100.0 / len(stocks_a)
-                st.info(f"📊 {len(stocks_a)} stocks selected → Equal weight: {equal_weight:.2f}% each")
+                num_stocks_a = len(stocks_a)
+                equal_weight_a = 100.0 / num_stocks_a
                 
-                # Initialize session state for each stock if it doesn't exist
-                for stock in stocks_a:
-                    weight_key = f"weight_a_{stock}"
-                    if weight_key not in st.session_state:
-                        st.session_state[weight_key] = equal_weight
+                # Reset weights if number of stocks changed
+                if num_stocks_a != st.session_state.last_stocks_a_count:
+                    # Clear old weights
+                    keys_to_delete = [k for k in st.session_state.keys() if k.startswith("weight_a_")]
+                    for k in keys_to_delete:
+                        del st.session_state[k]
+                    
+                    # Initialize new weights
+                    for stock in stocks_a:
+                        st.session_state[f"weight_a_{stock}"] = equal_weight_a
+                    
+                    st.session_state.last_stocks_a_count = num_stocks_a
                 
-                # Check if any stocks were removed - reset removed stock weights
-                all_weight_keys_a = [k for k in st.session_state.keys() if k.startswith("weight_a_")]
-                for weight_key in all_weight_keys_a:
-                    stock = weight_key.replace("weight_a_", "")
-                    if stock not in stocks_a and weight_key in st.session_state:
-                        del st.session_state[weight_key]
+                # Display info
+                st.info(f"📊 {num_stocks_a} stocks selected → Equal weight: {equal_weight_a:.2f}% each")
                 
                 # Display weight inputs
-                cols = st.columns(len(stocks_a))
+                cols = st.columns(num_stocks_a)
                 for idx, stock in enumerate(stocks_a):
                     with cols[idx]:
                         weight_key = f"weight_a_{stock}"
+                        # Get value from session state
+                        current_value = st.session_state.get(weight_key, equal_weight_a)
                         weights_a[stock] = st.number_input(
                             f"{stock}",
                             min_value=0.0,
                             max_value=100.0,
+                            value=current_value,
                             step=0.1,
                             key=weight_key,
                             format="%.2f"
@@ -323,32 +334,37 @@ def show_portfolio_analysis(period, risk_free_rate):
             
             weights_b = {}
             if stocks_b:
-                # Show info about equal weight distribution
-                equal_weight = 100.0 / len(stocks_b)
-                st.info(f"📊 {len(stocks_b)} stocks selected → Equal weight: {equal_weight:.2f}% each")
+                num_stocks_b = len(stocks_b)
+                equal_weight_b = 100.0 / num_stocks_b
                 
-                # Initialize session state for each stock if it doesn't exist
-                for stock in stocks_b:
-                    weight_key = f"weight_b_{stock}"
-                    if weight_key not in st.session_state:
-                        st.session_state[weight_key] = equal_weight
+                # Reset weights if number of stocks changed
+                if num_stocks_b != st.session_state.last_stocks_b_count:
+                    # Clear old weights
+                    keys_to_delete = [k for k in st.session_state.keys() if k.startswith("weight_b_")]
+                    for k in keys_to_delete:
+                        del st.session_state[k]
+                    
+                    # Initialize new weights
+                    for stock in stocks_b:
+                        st.session_state[f"weight_b_{stock}"] = equal_weight_b
+                    
+                    st.session_state.last_stocks_b_count = num_stocks_b
                 
-                # Check if any stocks were removed - reset removed stock weights
-                all_weight_keys_b = [k for k in st.session_state.keys() if k.startswith("weight_b_")]
-                for weight_key in all_weight_keys_b:
-                    stock = weight_key.replace("weight_b_", "")
-                    if stock not in stocks_b and weight_key in st.session_state:
-                        del st.session_state[weight_key]
+                # Display info
+                st.info(f"📊 {num_stocks_b} stocks selected → Equal weight: {equal_weight_b:.2f}% each")
                 
                 # Display weight inputs
-                cols = st.columns(len(stocks_b))
+                cols = st.columns(num_stocks_b)
                 for idx, stock in enumerate(stocks_b):
                     with cols[idx]:
                         weight_key = f"weight_b_{stock}"
+                        # Get value from session state
+                        current_value = st.session_state.get(weight_key, equal_weight_b)
                         weights_b[stock] = st.number_input(
                             f"{stock}",
                             min_value=0.0,
                             max_value=100.0,
+                            value=current_value,
                             step=0.1,
                             key=weight_key,
                             format="%.2f"
