@@ -1,3 +1,4 @@
+
 """
 THE MOUNTAIN PATH - NIFTY PORTFOLIO ANALYZER
 Advanced Portfolio Analysis Platform
@@ -256,7 +257,44 @@ def show_portfolio_analysis(period, risk_free_rate):
     
     st.markdown("---")
     
+    # Validation function
+    def validate_weights(weights, portfolio_name):
+        if not weights:
+            return True, None
+        total = sum(weights.values())
+        if abs(total - 100) > 0.01:  # Allow small rounding errors
+            return False, f"❌ {portfolio_name}: Total weight is {total:.2f}%, must be exactly 100%"
+        return True, None
+    
+    # Show weight validation in real-time
+    if stocks_a:
+        total_a = sum(weights_a.values())
+        if abs(total_a - 100) > 0.01:
+            st.warning(f"⚠️ Portfolio A weight: {total_a:.2f}% (should be 100%)")
+        else:
+            st.success(f"✅ Portfolio A weight: {total_a:.2f}%")
+    
+    if stocks_b:
+        total_b = sum(weights_b.values())
+        if abs(total_b - 100) > 0.01:
+            st.warning(f"⚠️ Portfolio B weight: {total_b:.2f}% (should be 100%)")
+        else:
+            st.success(f"✅ Portfolio B weight: {total_b:.2f}%")
+    
+    st.markdown("---")
+    
     if st.button("🔍 Analyze Portfolios", use_container_width=True):
+        # Validate before analysis
+        valid_a, error_a = validate_weights(weights_a, "Portfolio A")
+        valid_b, error_b = validate_weights(weights_b, "Portfolio B")
+        
+        if stocks_a and not valid_a:
+            st.error(error_a)
+            st.stop()
+        if stocks_b and not valid_b:
+            st.error(error_b)
+            st.stop()
+        
         with st.spinner("Analyzing..."):
             try:
                 if stocks_a and weights_a:
