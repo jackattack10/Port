@@ -282,6 +282,7 @@ def show_portfolio_analysis(period, risk_free_rate):
             
             weights_a = {}
             if stocks_a:
+                st.info(f"📊 {len(stocks_a)} stocks selected → Equal weight: {100.0/len(stocks_a):.2f}% each")
                 cols = st.columns(len(stocks_a))
                 for idx, stock in enumerate(stocks_a):
                     with cols[idx]:
@@ -290,8 +291,9 @@ def show_portfolio_analysis(period, risk_free_rate):
                             min_value=0.0,
                             max_value=100.0,
                             value=100.0/len(stocks_a),
-                            step=0.5,
-                            key=f"weight_a_{stock}"
+                            step=0.1,
+                            key=f"weight_a_{stock}",
+                            format="%.2f"
                         )
         
         with col2:
@@ -304,6 +306,7 @@ def show_portfolio_analysis(period, risk_free_rate):
             
             weights_b = {}
             if stocks_b:
+                st.info(f"📊 {len(stocks_b)} stocks selected → Equal weight: {100.0/len(stocks_b):.2f}% each")
                 cols = st.columns(len(stocks_b))
                 for idx, stock in enumerate(stocks_b):
                     with cols[idx]:
@@ -312,8 +315,9 @@ def show_portfolio_analysis(period, risk_free_rate):
                             min_value=0.0,
                             max_value=100.0,
                             value=100.0/len(stocks_b),
-                            step=0.5,
-                            key=f"weight_b_{stock}"
+                            step=0.1,
+                            key=f"weight_b_{stock}",
+                            format="%.2f"
                         )
         
         st.markdown("---")
@@ -328,19 +332,23 @@ def show_portfolio_analysis(period, risk_free_rate):
             return True, None
         
         # Show weight validation in real-time
-        if stocks_a:
-            total_a = sum(weights_a.values())
-            if abs(total_a - 100) > 0.01:
-                st.warning(f"⚠️ Portfolio A weight: {total_a:.2f}% (should be 100%)")
-            else:
-                st.success(f"✅ Portfolio A weight: {total_a:.2f}%")
+        val_col1, val_col2 = st.columns(2)
         
-        if stocks_b:
-            total_b = sum(weights_b.values())
-            if abs(total_b - 100) > 0.01:
-                st.warning(f"⚠️ Portfolio B weight: {total_b:.2f}% (should be 100%)")
-            else:
-                st.success(f"✅ Portfolio B weight: {total_b:.2f}%")
+        with val_col1:
+            if stocks_a:
+                total_a = sum(weights_a.values())
+                if abs(total_a - 100) > 0.01:
+                    st.warning(f"⚠️ Portfolio A weight: {total_a:.2f}% (should be 100%)")
+                else:
+                    st.success(f"✅ Portfolio A weight: {total_a:.2f}%")
+        
+        with val_col2:
+            if stocks_b:
+                total_b = sum(weights_b.values())
+                if abs(total_b - 100) > 0.01:
+                    st.warning(f"⚠️ Portfolio B weight: {total_b:.2f}% (should be 100%)")
+                else:
+                    st.success(f"✅ Portfolio B weight: {total_b:.2f}%")
         
         st.markdown("---")
         
