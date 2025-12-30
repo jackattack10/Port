@@ -185,8 +185,13 @@ def render_professional_footer():
         ">🐙 GitHub</a>
     </div>
     <p style="color: #666; font-size: 12px; margin: 0 0 10px 0; line-height: 1.6;">
-    <strong>Disclaimer:</strong> This tool is for educational purposes. Not financial advice. 
-    Always consult with a qualified financial advisor before making investment decisions.
+    <strong>⚠️ DISCLAIMER:</strong> This tool is for <strong>educational purposes only</strong>. <strong>NOT financial advice.</strong> 
+    Always consult with a qualified financial advisor before making investment decisions. Past performance does not guarantee future results. 
+    This tool does not include taxes, fees, or transaction costs.
+    </p>
+    <p style="color: #777; font-size: 11px; margin: 5px 0 5px 0; line-height: 1.5;">
+    <strong>📊 Data Source:</strong> Real-time NIFTY 50 stock data from Yahoo Finance. Occasionally, Yahoo Finance may experience data disruptions. 
+    If you encounter data errors, refresh and try again. Analysis does not include dividends, splits handling, or corporate actions.
     </p>
     <p style="color: #999; font-size: 11px; margin: 0;">
     📊 Last Updated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
@@ -340,6 +345,79 @@ def show_landing_page():
         - **Risk-Adjusted:** Sharpe Ratio, Sortino Ratio
         - **Advanced:** Beta, Alpha, Calmar Ratio
         - **And 15+ More Metrics!**
+        """)
+    
+    st.markdown("---")
+    
+    # Disclaimer & Data Information Section
+    with st.expander("⚠️ IMPORTANT: Disclaimer & Data Information", expanded=False):
+        st.markdown("""
+        ### 📚 Educational Purpose Only
+        
+        **This tool is designed for educational and informational purposes only. It is NOT financial advice.**
+        
+        ✅ **Use this tool to:**
+        - Learn portfolio analysis concepts
+        - Understand financial metrics
+        - Compare portfolio alternatives
+        - Visualize risk and return profiles
+        
+        ❌ **Do NOT use this tool as:**
+        - Financial advice
+        - Investment recommendation
+        - Guaranteed return prediction
+        - Replacement for professional advisors
+        
+        **Always consult a qualified financial advisor before making investment decisions.**
+        
+        ---
+        
+        ### 📊 Data Source & Real-Time Information
+        
+        **Data Source:** Yahoo Finance (Real-time NIFTY 50 Stocks)
+        - Live stock prices from Yahoo Finance API
+        - Historical data up to 10 years
+        - Real-time calculations when you run analysis
+        - Data refreshes each time you use the tool
+        
+        **Occasional Data Issues:**
+        Sometimes Yahoo Finance experiences disruptions. If you see data errors:
+        1. Refresh the page and try again
+        2. Select different stocks
+        3. Wait a few minutes and retry
+        
+        This is a data source issue, not a tool problem.
+        
+        ---
+        
+        ### ⚠️ Important Limitations
+        
+        **This tool does NOT include:**
+        - ❌ Transaction costs or brokerage fees
+        - ❌ Capital gains taxes or tax implications
+        - ❌ Dividend timing variations
+        - ❌ Your personal financial situation
+        - ❌ Bid-ask spreads and slippage
+        - ❌ Future market performance guarantees
+        
+        **What This Tool DOES Provide:**
+        - ✅ Educational insights into metrics
+        - ✅ Comparable analysis across portfolios
+        - ✅ Visual performance indicators
+        - ✅ Risk-return understanding
+        - ✅ Learning opportunities
+        
+        ---
+        
+        ### 📝 Key Points
+        
+        🎓 **Use it to LEARN.** Decide with PROFESSIONALS.
+        
+        📊 **Past performance ≠ Future results.** Market conditions change.
+        
+        💼 **Always consult professionals** before making investment decisions.
+        
+        📞 **Questions?** Use "Learn Metrics" section or reach out directly.
         """)
     
     st.markdown("---")
