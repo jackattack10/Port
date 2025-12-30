@@ -409,6 +409,31 @@ def show_landing_page():
         
         ---
         
+        ### 🔧 Troubleshooting Data Issues
+        
+        **If the tool shows an error or incomplete data:**
+        
+        1. **🔄 Reclick "Analyze Portfolios"** ← Try this FIRST!
+           - Sometimes Yahoo Finance has temporary delays
+           - Re-running usually resolves the issue immediately
+           - Most data issues resolve on second attempt
+        
+        2. **🔄 Refresh the page** (Ctrl+R or Cmd+R)
+           - Clears any cached data
+           - Reestablishes connection to data source
+        
+        3. **Try different stocks**
+           - If specific stocks cause issues
+           - Select alternative stocks and retry
+        
+        4. **⏱️ Wait a few minutes and try again**
+           - Yahoo Finance disruptions usually last only minutes
+           - Try again after a brief wait
+        
+        **These are data source issues, NOT tool problems.** 🔌
+        
+        ---
+        
         ### 📝 Key Points
         
         🎓 **Use it to LEARN.** Decide with PROFESSIONALS.
@@ -416,6 +441,8 @@ def show_landing_page():
         📊 **Past performance ≠ Future results.** Market conditions change.
         
         💼 **Always consult professionals** before making investment decisions.
+        
+        🔄 **Data issues?** Reclick "Analyze Portfolios", refresh page, try different stocks.
         
         📞 **Questions?** Use "Learn Metrics" section or reach out directly.
         """)
